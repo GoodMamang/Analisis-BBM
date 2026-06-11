@@ -8,47 +8,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #050505;
+            background-color: #040404;
             color: #f3f4f6;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Glassmorphism Core Styling */
+        /* Glassmorphism Styling */
         .glass-panel {
-            background: rgba(15, 15, 15, 0.55);
+            background: rgba(14, 14, 14, 0.6);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
         .glass-card {
-            background: rgba(20, 20, 20, 0.4);
+            background: rgba(22, 22, 22, 0.4);
             border-left: 3px solid #ef4444;
             transition: all 0.3s ease;
         }
         .glass-card:hover, .glass-card:active {
             background: rgba(239, 68, 68, 0.08);
             border-left-color: #ffffff;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
-        /* Interactive Element Highlight */
-        .interactive-text {
+        /* Interactive Elements Control */
+        .interactive-row {
             transition: all 0.3s ease;
-            padding: 0.5rem;
             border-radius: 6px;
         }
-        .interactive-text:hover, .interactive-text:active {
-            background: rgba(255, 255, 255, 0.03);
+        .interactive-row:hover, .interactive-row:active {
+            background: rgba(255, 255, 255, 0.02);
             color: #ef4444;
+            padding-left: 4px;
         }
 
-        /* Canvas Interactive for Mouse/Touch Particles */
+        /* Interactive Canvas Setup */
         #interactive-canvas {
             position: fixed;
             top: 0;
@@ -59,16 +60,16 @@
             pointer-events: none;
         }
 
-        /* Custom Scrollbar */
+        /* Scrollbar Styling */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-track { background: #040404; }
         ::-webkit-scrollbar-thumb { background: #ef4444; border-radius: 10px; }
 
         /* Navigation Tab Style */
         .tab-btn {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.02);
         }
         .tab-btn::after {
             content: '';
@@ -84,7 +85,7 @@
         .tab-btn.active {
             background: rgba(239, 68, 68, 0.2);
             color: #ffffff;
-            border-color: rgba(239, 68, 68, 0.5);
+            border-color: rgba(239, 68, 68, 0.4);
             box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15);
         }
         .tab-btn.active::after { width: 70%; }
@@ -94,13 +95,13 @@
 
     <canvas id="interactive-canvas"></canvas>
 
-    <header class="fixed top-0 left-0 right-0 z-50 border-b border-zinc-900 bg-black/75 backdrop-blur-md py-4 px-6 shadow-2xl shadow-black/80">
+    <header class="fixed top-0 left-0 right-0 z-50 border-b border-zinc-900 bg-black/80 backdrop-blur-md py-4 px-6 shadow-2xl shadow-black/90">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-4">
                 <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgQQW6S_rJBjt8LnCRp_i3UUJLnTWfU8LgApydZ2idmn42EGenrKdNQSraFXQc1tAqHv1tyABZkGCYSWawGo5GZsVzi_eeJvB_mhl3ROES7ywWtxjfsqE9TwUbU83eRfVNCGYwfxL5nGca_q4a74-HYUp3HOXbXgcZIrZNWXBIM4pGYeieYaYg8p-eI" 
                      alt="Logo PMII" class="h-14 w-auto object-contain filter drop-shadow-[0_0_8px_rgba(239,68,68,0.3)]">
                 <div>
-                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-white bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-red-500">
+                    <h1 class="text-xl md:text-2xl font-black tracking-tight text-white">
                         ANALISIS KENAIKAN BBM
                     </h1>
                     <p class="text-xs font-medium text-zinc-400">
@@ -109,7 +110,7 @@
                 </div>
             </div>
             <div class="bg-red-950/30 border border-red-900/40 px-4 py-1.5 rounded-full text-xs font-semibold text-red-400 flex items-center gap-2">
-                <i class="fa-solid fa-circle shadow-pulse animate-pulse text-[8px]"></i> Laporan Riset & Aksi Kebijakan 2026
+                <i class="fa-solid fa-circle shadow-pulse animate-pulse text-[8px]"></i> Pembaruan Terakhir: Juni 2026
             </div>
         </div>
     </header>
@@ -119,80 +120,87 @@
     <main class="relative z-10 max-w-7xl mx-auto px-6 mt-6">
         
         <nav class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-8 bg-zinc-950/60 p-2 rounded-xl border border-zinc-900">
-            <button onclick="switchTab('overview')" id="btn-overview" class="tab-btn active px-3 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
-                <i class="fa-solid fa-layer-group text-base"></i> 1. Gambaran & Regulasi
+            <button onclick="switchTab('overview')" id="btn-overview" class="tab-btn active px-2 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-layer-group text-base"></i> 1. Definisi & Sejarah
             </button>
-            <button onclick="switchTab('landasan')" id="btn-landasan" class="tab-btn px-3 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
-                <i class="fa-solid fa-brain text-base"></i> 2. Teori & Ahli
+            <button onclick="switchTab('landasan')" id="btn-landasan" class="tab-btn px-2 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-brain text-base"></i> 2. Teori & Teoretis
             </button>
-            <button onclick="switchTab('data')" id="btn-data" class="tab-btn px-3 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
-                <i class="fa-solid fa-chart-line text-base"></i> 3. Data Statistik
+            <button onclick="switchTab('regulasi')" id="btn-regulasi" class="tab-btn px-2 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-gavel text-base"></i> 3. Regulasi & Hukum
             </button>
-            <button onclick="switchTab('dampak')" id="btn-dampak" class="tab-btn px-3 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
-                <i class="fa-solid fa-shuffle text-base"></i> 4. Dampak Sektoral
+            <button onclick="switchTab('data')" id="btn-data" class="tab-btn px-2 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-chart-line text-base"></i> 4. Data Statistik
             </button>
-            <button onclick="switchTab('swot')" id="btn-swot" class="tab-btn px-3 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
-                <i class="fa-solid fa-table-cells-large text-base"></i> 5. Analisis SWOT/PESTEL
+            <button onclick="switchTab('dampak')" id="btn-dampak" class="tab-btn px-2 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-shuffle text-base"></i> 5. Dampak & Realitas
             </button>
-            <button onclick="switchTab('manifes')" id="btn-manifes" class="tab-btn px-3 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
-                <i class="fa-solid fa-bullhorn text-base"></i> 6. Sikap & Tuntutan
+            <button onclick="switchTab('manifes')" id="btn-manifes" class="tab-btn px-2 py-3 rounded-lg text-xs font-semibold text-zinc-400 hover:text-white transition-all flex flex-col items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-bullhorn text-base"></i> 6. SWOT & Tuntutan
             </button>
         </nav>
 
         <section id="tab-overview" class="tab-content block space-y-6">
             <div class="glass-panel p-6 rounded-xl space-y-6">
                 <div>
-                    <h3 class="text-base font-bold text-red-500 mb-2 tracking-wider"><i class="fa-solid fa-gas-pump mr-2"></i>1.1 DEFINISI & KATEGORISASI NYATA</h3>
+                    <h3 class="text-base font-bold text-red-500 mb-2 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-gas-pump"></i> 1.1 DEFINISI KOMPREHENSIF & KATEGORISASI BBM
+                    </h3>
                     <p class="text-xs text-zinc-300 leading-relaxed">
-                        Bahan Bakar Minyak (BBM) merupakan komoditas strategis hasil olahan minyak bumi, mencakup bensin (gasoline), solar (diesel), avtur, hingga minyak tanah[cite: 10]. Kenaikan harga merujuk pada peningkatan harga eceran di tingkat konsumen akhir yang didorong keputusan pemerintah maupun penyesuaian pasar akibat fluktuasi minyak mentah dunia, nilai tukar rupiah, dan kebijakan fiskal negara[cite: 15]. Kebijakan publik nasional membaginya dalam 3 kategori baku[cite: 11]:
+                        Bahan Bakar Minyak (BBM) merupakan komoditas strategis yang bersumber dari hasil pengolahan minyak bumi, mencakup berbagai jenis seperti bensin (gasoline), solar (diesel), avtur, hingga minyak tanah. Kenaikan harga BBM merujuk pada peningkatan harga jual eceran di tingkat konsumen akhir — baik yang didorong oleh keputusan kebijakan pemerintah (dalam hal BBM bersubsidi/kompensasi) maupun penyesuaian harga pasar yang dipengaruhi oleh fluktuasi harga minyak mentah dunia, nilai tukar rupiah, dan kebijakan fiskal negara. Dalam konteks kebijakan publik Indonesia, BBM dibedakan menjadi tiga kategori utama:
                     </p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 text-xs">
-                        <div class="p-3 bg-zinc-900/40 rounded border border-zinc-800"><b class="text-red-400">BBM Bersubsidi (JBT):</b> Jenis BBM tertentu yang harganya ditetapkan pemerintah di bawah harga pasar, yaitu Solar dan Minyak Tanah[cite: 12].</div>
-                        <div class="p-3 bg-zinc-900/40 rounded border border-zinc-800"><b class="text-amber-400">BBM Khusus Penugasan (JBKP):</b> BBM yang memperoleh skema kompensasi anggaran, seperti Pertalite (RON 90)[cite: 13].</div>
-                        <div class="p-3 bg-zinc-900/40 rounded border border-zinc-800"><b class="text-zinc-300">BBM Non-Subsidi / Umum (JBU):</b> Bersifat komersial mengikuti pasar, seperti Pertamax (RON 92), Pertamax Turbo (RON 98), Dexlite, dan Pertamina Dex[cite: 14, 350].</div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 text-xs">
+                        <div class="glass-card p-3 rounded"><b class="text-red-400 block mb-1">1. BBM Bersubsidi (JBT)</b>Jenis Bahan Bakar Tertentu yang harganya ditetapkan oleh pemerintah di bawah harga pasar, di mana APBN menutupi selisihnya. Komoditas yang masuk kategori ini adalah <b>Solar</b> dan <b>Minyak Tanah</b>.</div>
+                        <div class="glass-card p-3 rounded"><b class="text-amber-400 block mb-1">2. BBM Khusus Penugasan (JBKP)</b>Jenis BBM yang pendistribusiannya diberikan mandatori khusus ke wilayah tertentu dan memperoleh skema dana kompensasi APBN, seperti <b>Pertalite (RON 90)</b>.</div>
+                        <div class="glass-card p-3 rounded"><b class="text-zinc-300 block mb-1">3. BBM Non-Subsidi / Umum (JBU)</b>Jenis produk komersial yang penentuan harga ecerannya diserahkan sepenuhnya mengikuti mekanisme perkembangan pasar ekonomi bebas, mencakup <b>Pertamax (RON 92), Pertamax Turbo (RON 98), Dexlite, dan Pertamina Dex</b>.</div>
                     </div>
                 </div>
 
                 <hr class="border-zinc-900">
 
                 <div>
-                    <h3 class="text-base font-bold text-red-500 mb-2 tracking-wider"><i class="fa-solid fa-scroll mr-2"></i>1.2 DASAR REGULASI NASIONAL & INTERNASIONAL</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-zinc-300">
-                        <div class="space-y-2">
-                            <p>• <b>UUD 1945 Pasal 33 ayat (2) & (3):</b> Cabang produksi penting dikuasai negara untuk sebesar-besarnya kemakmuran rakyat[cite: 61, 62].</p>
-                            <p>• <b>UU No. 22 Tahun 2001 (UU Migas):</b> Pasal 28 (2) harga diserahkan pada persaingan sehat; Pasal 28 (3) pemerintah memegang tanggung jawab sosial bagi golongan tertentu[cite: 63, 64].</p>
-                            <p>• <b>UU APBN (Tahunan):</b> Mengunci pagu anggaran subsidi, kompensasi energi, asumsi ICP, dan kurs rupiah[cite: 65].</p>
+                    <h3 class="text-base font-bold text-red-500 mb-3 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left"></i> 1.2 KRONOLOGI PANJANG PERUBAHAN TATA KELOLA ENERGI NASIONAL
+                    </h3>
+                    <p class="text-xs text-zinc-400 mb-4">Sejarah kebijakan harga BBM di Indonesia tidak dapat dilepaskan dari sejarah perubahan tata kelola energi nasional. Berikut alur linimasa peristiwa utama beserta keterangannya:</p>
+                    
+                    <div class="space-y-2 text-xs text-zinc-300">
+                        <div class="interactive-row p-2 border-b border-zinc-900 flex flex-col sm:flex-row gap-2">
+                            <span class="font-bold text-red-400 sm:w-32 shrink-0">1945–1970-an</span>
+                            <div><b>Harga BBM Dikendalikan Penuh oleh Negara:</b> Pertamina bertindak sebagai satu-satunya entitas distributor tunggal penjamin energi nasional.</div>
                         </div>
-                        <div class="space-y-2">
-                            <p>• <b>Perpres No. 191/2014 & Perpres No. 43/2018:</b> Aturan induk penyediaan, distribusi, dan kriteria konsumen berhak subsidi[cite: 67].</p>
-                            <p>• <b>Perpres No. 117/2021 & KEN/RUEN (Perpres No. 22/2017):</b> Percepatan ekosistem kendaraan listrik berbasis baterai serta target bauran EBT 23% (2025) dan 31% (2050)[cite: 67, 69].</p>
-                            <p>• <b>Perjanjian Paris (2015):</b> Komitmen internasional Indonesia pangkas emisi GRK 29–41% pada tahun 2030[cite: 70].</p>
+                        <div class="interactive-row p-2 border-b border-zinc-900 flex flex-col sm:flex-row gap-2">
+                            <span class="font-bold text-zinc-500 sm:w-32 shrink-0">1998</span>
+                            <div><b>Reformasi Subsidi Akibat Krisis Moneter:</b> Hantaman krisis memaksa restrukturisasi anggaran; IMF mensyaratkan pengurangan subsidi BBM sebagai kondisi prasyarat pencairan paket pinjaman keuangan negara.</div>
                         </div>
-                    </div>
-
-                    <div class="mt-4 p-4 bg-zinc-950/80 rounded-xl border border-zinc-900">
-                        <span class="text-[10px] font-bold text-red-400 tracking-wider uppercase block mb-1">Fokus Regulasi Harga Pasar</span>
-                        <h4 class="text-xs font-bold text-white mb-2">Kepmen ESDM No. 245.K/MG.01/MEM.M/2022 <span class="text-zinc-500 font-normal">(Formula JBU)</span></h4>
-                        <p class="text-xs text-zinc-400 leading-relaxed">
-                            Aturan baku formula harga dasar perhitungan eceran jenis BBM umum komersial demi menjaga keadilan pasar, kepastian hukum, dan kesinambungan pasokan energi[cite: 336, 337]. Aturan ini mengunci rumus baku batas atas dan batas bawah agar badan usaha (Pertamina, Shell, Vivo) tidak boleh asal menaikkan harga sepihak demi keuntungan berlebih[cite: 344, 345]. Regulasi ini memisahkan perhitungan BBM komersial agar gejolak pasar bebas tidak menguras dana APBN subsidi rakyat [cite: 350], serta secara resmi menyatakan standar mutu bensin berkualitas rendah Premium RON 88 tidak berlaku lagi di Indonesia per 1 Januari 2023 untuk memicu transisi energi bersih[cite: 338, 340, 341].
-                        </p>
-                    </div>
-                </div>
-
-                <hr class="border-zinc-900">
-
-                <div>
-                    <h3 class="text-base font-bold text-red-500 mb-4 tracking-wider"><i class="fa-solid fa-clock-rotate-left mr-2"></i>1.3 KRONOLOGI PANJANG DINAMIKA KEBIJAKAN BBM INDONESIA</h3>
-                    <div class="space-y-3 text-xs text-zinc-400">
-                        <div class="interactive-text border-b border-zinc-900/50 pb-2"><b>1945–1970-an:</b> Harga BBM dikendalikan penuh oleh negara dengan Pertamina sebagai satu-satunya distributor tunggal energi nasional[cite: 19].</div>
-                        <div class="interactive-text border-b border-zinc-900/50 pb-2"><b>1998:</b> Krisis moneter parah memaksa reformasi subsidi; IMF mensyaratkan pengurangan subsidi BBM sebagai kondisi mutlak pinjaman negara[cite: 19].</div>
-                        <div class="interactive-text border-b border-zinc-900/50 pb-2"><b>Maret 2005:</b> Harga bensin naik 32,6% dan solar naik 27,3%; angka inflasi melonjak secara signifikan pasca-kenaikan[cite: 19].</div>
-                        <div class="interactive-text border-b border-zinc-900/50 pb-2"><b>Oktober 2005:</b> Kenaikan BBM kedua di era Presiden SBY; bensin melonjak drastis dari Rp2.400 menjadi Rp4.500 per liter[cite: 19].</div>
-                        <div class="interactive-text border-b border-zinc-900/50 pb-2"><b>2008:</b> Kebijakan naik-turun BBM agresif guna menyesuaikan volatilitas harga minyak dunia yang sempat menyentuh rekor USD 147/barel[cite: 19].</div>
-                        <div class="interactive-text border-b border-zinc-900/50 pb-2"><b>2012–2013:</b> Total beban subsidi energi APBN mencapai puncak Rp240 triliun akibat dominasi konsumen golongan mampu dalam menikmati kuota subsidi[cite: 19].</div>
-                        <div class="interactive-text border-b border-zinc-900/50 pb-2"><b>November 2014:</b> Penghapusan resmi komoditas subsidi BBM Premium oleh Presiden Jokowi sebagai langkah transisi ke mekanisme harga keekonomian asli[cite: 19].</div>
-                        <div class="interactive-text border-b border-zinc-900/50 pb-2"><b>September 2022:</b> Kenaikan signifikan komoditas bersubsidi; bensin Pertalite melompat dari Rp7.650 menjadi Rp10.000 per liter[cite: 19].</div>
-                        <div class="interactive-text text-zinc-300"><b>Kondisi Terkini (2025–Juni 2026):</b> Perang AS-Iran mengguncang jalur distribusi Selat Hormuz[cite: 19, 30]. Per 18 April 2026, Pertamina Patra Niaga menaikkan harga tiga jenis JBU komersial secara tajam (48–66%)[cite: 29]. Sebaliknya, kabinet Presiden Prabowo Subianto menegaskan harga Pertalite dan Solar tidak akan dinaikkan hingga akhir 2026 dengan menyiapkan suntikan dana tambahan subsidi sebesar Rp90–100 triliun[cite: 32].</div>
+                        <div class="interactive-row p-2 border-b border-zinc-900 flex flex-col sm:flex-row gap-2">
+                            <span class="font-bold text-zinc-500 sm:w-32 shrink-0">Maret 2005</span>
+                            <div><b>Lonjakan Biaya Energi Pertama:</b> Pemerintah menetapkan kenaikan harga bensin sebesar 32,6% dan solar sebesar 27,3%. Angka inflasi nasional langsung melonjak secara signifikan pasca-kebijakan diumumkan.</div>
+                        </div>
+                        <div class="interactive-row p-2 border-b border-zinc-900 flex flex-col sm:flex-row gap-2">
+                            <span class="font-bold text-zinc-500 sm:w-32 shrink-0">Oktober 2005</span>
+                            <div><b>Guncangan Kedua Era SBY:</b> Penyesuaian harga BBM kedua dilakukan di era Presiden Susilo Bambang Yudhoyono, di mana bensin naik tajam dari Rp2.400 menjadi Rp4.500 per liter.</div>
+                        </div>
+                        <div class="interactive-row p-2 border-b border-zinc-900 flex flex-col sm:flex-row gap-2">
+                            <span class="font-bold text-zinc-500 sm:w-32 shrink-0">2008</span>
+                            <div><b>Kebijakan Naik-Turun Agresif:</b> Mekanisme penyesuaian harga eceran bergerak dinamis naik dan turun guna menyelaraskan fluktuasi harga minyak mentah dunia yang sempat menyentuh rekor tertinggi sejarah di level USD 147 per barel.</div>
+                        </div>
+                        <div class="interactive-row p-2 border-b border-zinc-900 flex flex-col sm:flex-row gap-2">
+                            <span class="font-bold text-zinc-500 sm:w-32 shrink-0">2012–2013</span>
+                            <div><b>Beban Subsidi Mencapai Puncak Fiskal:</b> Anggaran subsidi energi menguras APBN hingga menyentuh angka Rp240 triliun. Hal ini dipicu oleh dominasi mutlak konsumen dari golongan masyarakat mampu yang ikut menikmati kuota BBM murah tersebut.</div>
+                        </div>
+                        <div class="interactive-row p-2 border-b border-zinc-900 flex flex-col sm:flex-row gap-2">
+                            <span class="font-bold text-zinc-500 sm:w-32 shrink-0">November 2014</span>
+                            <div><b>Penghapusan Komoditas Premium RON 88:</b> Presiden Joko Widodo resmi menghapus subsidi untuk bensin Premium. Kebijakan ini menandai dimulainya transisi tata kelola energi ke mekanisme harga keekonomian riil.</div>
+                        </div>
+                        <div class="interactive-row p-2 border-b border-zinc-900 flex flex-col sm:flex-row gap-2">
+                            <span class="font-bold text-zinc-500 sm:w-32 shrink-0">September 2022</span>
+                            <div><b>Penyesuaian Masif Harga Subsidi:</b> Terjadi kenaikan harga BBM bersubsidi secara signifikan. Eceran bensin Pertalite melompat dari Rp7.650 menjadi Rp10.000 per liter, dan Solar Subsidi naik dari Rp5.150 menjadi Rp6.800 per liter.</div>
+                        </div>
+                        <div class="interactive-row p-2 flex flex-col sm:flex-row gap-2 bg-gradient-to-r from-red-950/20 to-transparent rounded">
+                            <span class="font-bold text-red-400 sm:w-32 shrink-0">April–Juni 2026</span>
+                            <div><b>Dualisme Kebijakan Terkini:</b> Dipicu perang bersenjata AS-Iran yang mengacaukan Selat Hormuz, per 18 April 2026, Pertamina Patra Niaga resmi menaikkan tajam tiga jenis JBU komersial sebesar 48–66%. Sebaliknya, Kabinet Presiden Prabowo Subianto menjamin harga Pertalite dan Solar Subsidi dikunci tetap stabil hingga akhir tahun 2026 dengan menyuntik tambahan anggaran APBN sebesar Rp90–100 triliun.</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -201,27 +209,29 @@
         <section id="tab-landasan" class="tab-content hidden space-y-6">
             <div class="glass-panel p-6 rounded-xl space-y-6">
                 <div>
-                    <h3 class="text-base font-bold text-red-500 mb-3 tracking-wider"><i class="fa-solid fa-graduation-cap mr-2"></i>2.1 LIMA TEORI AKADEMIS UTAMA YANG RELEVAN</h3>
+                    <h3 class="text-base font-bold text-red-500 mb-3 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap"></i> 2.1 LIMA PILAR LANDASAN TEORETIS SEKTOR ENERGI
+                    </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
                         <div class="glass-card p-3 rounded">
-                            <span class="text-white font-bold block mb-1">Teori Harga & Keseimbangan Pasar</span>
-                            Ekonomi neoklasik menegaskan subsidi harga di bawah titik keseimbangan menciptakan kelebihan permintaan (<em class="text-zinc-400">excess demand</em>), memicu kelangkaan, kebocoran, dan konsumsi tidak efisien[cite: 35, 37].
+                            <b class="text-white block mb-1">1. Teori Harga & Keseimbangan Pasar (Neoklasik)</b>
+                            Menegaskan bahwa idealnya harga energi dibentuk oleh interaksi penawaran dan permintaan. Intervensi buatan seperti mematok harga di bawah titik eceran keekonomian asli (subsidi) secara sistemik melahirkan <em class="text-zinc-400">excess demand</em> (kelebihan permintaan) yang berujung kelangkaan, kebocoran distribusi, dan pola konsumsi tidak efisien.
                         </div>
                         <div class="glass-card p-3 rounded">
-                            <span class="text-white font-bold block mb-1">Cost-Push Inflation (Sisi Penawaran)</span>
-                            Kenaikan harga BBM langsung mengerek biaya operasional produksi manufaktur, pertanian, transportasi, dan logistik distribusi di hampir seluruh sektor usaha[cite: 39, 40].
+                            <b class="text-white block mb-1">2. Teori Inflasi Biaya (Cost-Push Inflation)</b>
+                            Menempatkan bahan bakar sebagai transmisi utama penentu ongkos input penawaran. Lonjakan harga BBM secara instan mentransmisikan kenaikan biaya operasional di hampir seluruh sektor usaha hulu-hilir (manufaktur, pertanian, logistik armada, dan distribusi barang harian).
                         </div>
                         <div class="glass-card p-3 rounded">
-                            <span class="text-white font-bold block mb-1">Teori Subsidi & Kegagalan Pasar</span>
-                            Stiglitz (2012) & IMF membuktikan subsidi komoditas bersifat regresif karena dinikmati kelompok kaya. Data mengonfirmasi >70% subsidi BBM dinikmati kelompok mampu[cite: 44, 45].
+                            <b class="text-white block mb-1">3. Teori Subsidi & Kegagalan Pasar (Market Failure)</b>
+                            Ekonom Joseph Stiglitz (2012) serta Coady et al. (IMF, 2019) membuktikan bahwa subsidi harga komoditas yang tidak tertarget bersifat regresif. Skema ini melahirkan ketimpangan karena memberikan manfaat finansial jauh lebih besar kepada kelompok borjuis/kaya yang memiliki aset kendaraan boros bahan bakar.
                         </div>
                         <div class="glass-card p-3 rounded">
-                            <span class="text-white font-bold block mb-1">Redistributif & Kompensasi Sosial</span>
-                            Model penanganan pasca-kenaikan menyarankan skema <em class="text-zinc-400">targeted cash transfer</em> langsung kepada kelompok rentan, seperti BLT dan BSU yang direkomendasikan Bank Dunia[cite: 47, 48].
+                            <b class="text-white block mb-1">4. Teori Redistributif & Kompensasi Sosial</b>
+                            Menganjurkan bahwa guncangan akibat pencabutan subsidi wajib dinetralisir melalui instrumen jaring pengaman perlindungan sosial langsung yang menyasar orang (<em class="text-zinc-400">targeted cash transfer</em>) seperti BLT atau BSU. Model kompensasi ini divalidasi oleh Bank Dunia sebagai tameng pelindung daya beli kaum papa.
                         </div>
-                        <div class="glass-card p-3 rounded-lg lg:col-span-2">
-                            <span class="text-white font-bold block mb-1">Teori Ketergantungan Energi (Paradoks Impor)</span>
-                            Indonesia menghadapi ketimpangan struktural: laju konsumsi BBM nasional menembus angka 1,6 juta barel per hari, sedangkan volume produksi hulu domestik merosot tajam di level 600.000–610.000 barel per hari. Hal ini menciptakan jurang kebutuhan impor neto sebesar lebih dari 1 juta barel per hari[cite: 50].
+                        <div class="glass-card p-3 rounded lg:col-span-2">
+                            <b class="text-white block mb-1">5. Teori Ketergantungan Energi (Paradoks Negara Impor)</b>
+                            Membahas ketimpangan struktural kedaulatan energi Indonesia. Negara terjebak dalam kondisi kritis di mana volume konsumsi BBM nasional telah menembus angka <b>1,6 juta barel per hari</b>, sementara kapasitas produktivitas sumur bor dalam negeri terus merosot di level <b>600.000 hingga 610.000 barel per hari</b>. Jurang defisit ini menciptakan ketergantungan impor neto masif sebesar lebih dari 1 juta barel per hari dari pasar global.
                         </div>
                     </div>
                 </div>
@@ -229,41 +239,117 @@
                 <hr class="border-zinc-900">
 
                 <div>
-                    <h3 class="text-base font-bold text-red-500 mb-3 tracking-wider"><i class="fa-solid fa-user-tie mr-2"></i>2.2 PERNYATAAN EMPIRIS PARA AHLI & EKONOM</h3>
+                    <h3 class="text-base font-bold text-red-500 mb-3 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-user-tie"></i> 2.2 EMPAT PANDANGAN EMPIRIS PARA AHLI & EKONOM SEJARAH FISKAL
+                    </h3>
                     <div class="space-y-3 text-xs text-zinc-300">
-                        <p class="interactive-text"><b>Dr. Faisal Basri (Ekonom UI):</b> Mengutuk skema subsidi BBM yang tidak tepat sasaran sebagai bentuk 'salah kaprah' tata kelola fiskal negara yang dibiarkan berlangsung puluhan tahun. Reformasi adalah keniscayaan, namun wajib dikawal jaring pengaman sosial memadai[cite: 52, 53].</p>
-                        <p class="interactive-text"><b>Dr. Sri Mulyani Indrawati (Menkeu RI):</b> Menyatakan alokasi dana subsidi harga komoditas yang menguras APBN secara inheren menghalangi ruang gerak pemerintah untuk berinvestasi jangka panjang pada sektor produktif seperti pendidikan, kesehatan, dan infrastruktur strategis[cite: 54].</p>
-                        <p class="interactive-text"><b>Prof. Chatib Basri (Mantan Menkeu):</b> Menilai penyesuaian harga BBM sebagai langkah kebijakan fiskal yang 'tidak populer namun perlu dilakukan', di mana indikator keberhasilannya bertumpu pada kecepatan serta keandalan cakupan kompensasi sosial[cite: 55].</p>
-                        <p class="interactive-text"><b>Teuku Riefky (LPEM FEB UI):</b> Memperingatkan datangnya <em class="text-zinc-400">second round effect</em> (efek putaran kedua) dari kenaikan harga BBM yang berpotensi kuat mengerek inflasi selama 2–3 kuartal pasca-kebijakan melalui transmisi harga pangan dan tarif transportasi umum[cite: 56].</p>
+                        <div class="interactive-row p-2 border-b border-zinc-900/40">
+                            <b>Dr. Faisal Basri (Ekonom Universitas Indonesia):</b> Menilai bahwa skema subsidi BBM berbasis komoditas harga terbuka adalah potret 'salah kaprah' tata kelola fiskal negara yang dibiarkan menahun selama puluhan tahun. Dia menegaskan reformasi tata kelola anggaran adalah keniscayaan mutlak, namun wajib hukumnya diiringi oleh penguatan jaring pengaman sosial yang kokoh agar tidak mengorbankan kaum rentan.
+                        </div>
+                        <div class="interactive-row p-2 border-b border-zinc-900/40">
+                            <b>Dr. Sri Mulyani Indrawati (Menteri Keuangan RI):</b> Memaparkan fakta anggaran di mana alokasi dana subsidi energi terbuka yang menguras ratusan triliun isi APBN secara inheren telah menyedot ruang fiskal pemerintah, menghambat kemampuan negara untuk melakukan investasi jangka panjang yang jauh lebih produktif seperti pos pendidikan publik, pemeliharaan kesehatan, serta akselerasi infrastruktur nasional.
+                        </div>
+                        <div class="interactive-row p-2 border-b border-zinc-900/40">
+                            <b>Prof. Chatib Basri (Mantan Menteri Keuangan RI):</b> Menyatakan secara tegas bahwa menaikkan atau menyesuaikan harga BBM merupakan instrumen kebijakan publik yang 'tidak populer secara elektoral namun perlu dieksekusi'. Indikator mutlak keberhasilan mitigasi kebijakan ini sepenuhnya bertumpu pada kecepatan transmisi serta luasnya cakupan akurasi program kompensasi sosial.
+                        </div>
+                        <div class="interactive-row p-2">
+                            <b>Teuku Riefky (Peneliti LPEM FEB UI):</b> Memperingatkan otoritas keuangan mengenai bahaya riil <em class="text-zinc-400">second round effect</em> (efek putaran kedua) pasca-penyesuaian harga energi. Dampak ini memiliki daya rusak yang mampu mendorong kenaikan inflasi sektoral selama 2 hingga 3 kuartal berturut-turut melalui jalur transmisi kenaikan harga pangan pokok dan tarif moda transportasi massal.
+                        </div>
                     </div>
                 </div>
 
                 <hr class="border-zinc-900">
 
                 <div>
-                    <h3 class="text-base font-bold text-red-500 mb-2 tracking-wider"><i class="fa-solid fa-arrows-to-eye mr-2"></i>2.3 PERSPEKTIF INTEGRASI MULTIDISIPLINER</h3>
+                    <h3 class="text-base font-bold text-red-500 mb-2 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-arrows-spin"></i> 2.3 ENAM DIMENSI RUANG LINGKUP PEMBAHASAN MULTIDISIPLINER
+                    </h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 text-[11px] text-zinc-400">
-                        <div class="p-2 border border-zinc-900 rounded"><b>Ekonomi:</b> Efisiensi alokasi sumber daya fiskal dan mitigasi guncangan inflasi makro[cite: 58].</div>
-                        <div class="p-2 border border-zinc-900 rounded"><b>Sosiologi:</b> Analisis kesenjangan sosial, kerentanan kaum miskin, dan potensi protes massa[cite: 58].</div>
-                        <div class="p-2 border border-zinc-900 rounded"><b>Ilmu Politik:</b> Legitimasi kebijakan, populisme jangka pendek, serta political economy subsidi[cite: 58].</div>
-                        <div class="p-2 border border-zinc-900 rounded"><b>Ekologi:</b> Laju konsumsi fossil fuel, penekanan emisi CO2, dan akselerasi transisi EBT[cite: 58].</div>
-                        <div class="p-2 border border-zinc-900 rounded"><b>Hukum:</b> Uji konstitusionalitas tata kelola energi nasional dan regulasi persaingan hulu-hilir[cite: 58].</div>
-                        <div class="p-2 border border-zinc-900 rounded"><b>Teknologi:</b> Inovasi energi terbarukan, digitalisasi QR distribusi, dan efisiensi mesin[cite: 58].</div>
+                        <div class="p-2 border border-zinc-900 rounded"><b>1. Makro Ekonomi:</b> Fokus analisis dampak inflasi eceran, laju pertumbuhan ekonomi makro, serta stabilitas neraca fiskal APBN.</div>
+                        <div class="p-2 border border-zinc-900 rounded"><b>2. Mikro Ekonomi:</b> Meneliti pergeseran perilaku belanja konsumen, perubahan struktur biaya modal industri, dan daya beli riil.</div>
+                        <div class="p-2 border border-zinc-900 rounded"><b>3. Sosial & Kemiskinan:</b> Membedah jurang kesenjangan sosial, tingkat kerentanan kaum miskin, serta potensi gejolak riak protes massa.</div>
+                        <div class="p-2 border border-zinc-900 rounded"><b>4. Kebijakan Publik:</b> Menilai tingkat efektivitas akurasi ketepatan sasaran alokasi subsidi dan keandalan sistem birokrasi kompensasi.</div>
+                        <div class="p-2 border border-zinc-900 rounded"><b>5. Ekologi Lingkungan:</b> Implikasi laju konsumsi fosil terhadap volume emisi karbon CO2 serta peta jalan transisi energi bersih.</div>
+                        <div class="p-2 border border-zinc-900 rounded"><b>6. Geopolitik Global:</b> Pengaruh sengketa diplomatik militer internasional terhadap penentuan suplai rantai pasok energi dalam negeri.</div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-regulasi" class="tab-content hidden space-y-6">
+            <div class="glass-panel p-6 rounded-xl space-y-6">
+                <div>
+                    <h3 class="text-base font-bold text-red-500 mb-3 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-gavel"></i> 3.1 ARSITEKTUR STRUKTUR HUKUM & UNDANG-UNDANG ENERGI
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-zinc-300">
+                        <div class="p-3 bg-zinc-900/30 rounded border-l-2 border-red-500">
+                            <span class="text-white font-bold block mb-1">A. UUD 1945 Pasal 33 Ayat (2) & (3)</span>
+                            Menegaskan kedaulatan hukum konstitusi tertinggi bahwa cabang-cabang produksi yang penting bagi negara dan menguasai hajat hidup orang banyak dikuasai oleh negara. Sumber daya migas wajib dikelola sebesar-besarnya demi kemakmuran rakyat.
+                        </div>
+                        <div class="p-3 bg-zinc-900/30 rounded border-l-2 border-red-500">
+                            <span class="text-white font-bold block mb-1">B. UU No. 22 Tahun 2001 (UU Migas)</span>
+                            Memuat aturan dualisme tata kelola: Pasal 28 ayat (2) mengarahkan harga orientasi produk hilir dilepas pada mekanisme persaingan usaha yang sehat dan wajar. Namun, Pasal 28 ayat (3) mengunci kewajiban tanggung jawab sosial pemerintah terhadap golongan masyarakat tertentu.
+                        </div>
+                        <div class="p-3 bg-zinc-900/30 rounded border-l-2 border-red-500">
+                            <span class="text-white font-bold block mb-1">C. UU Anggaran Pendapatan & Belanja Negara</span>
+                            Setiap tahun secara berkala menetapkan batas maksimum pagu alokasi anggaran subsidi energi, dana kompensasi jaminan kuota, serta mematok asumsi harga minyak mentah Indonesia (ICP) beserta proyeksi pergerakan nilai tukar rupiah.
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-zinc-900">
+
+                <div>
+                    <h3 class="text-base font-bold text-red-500 mb-3 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-scroll"></i> 3.2 DAFTAR PERATURAN PEMERINTAH & PERATURAN PRESIDEN INDUK
+                    </h3>
+                    <div class="overflow-x-auto text-xs">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-zinc-800 text-zinc-400 bg-zinc-950/40">
+                                    <th class="p-2.5">Nama Regulasi Negara</th>
+                                    <th class="p-2.5">Isi Pokok Aturan</th>
+                                    <th class="p-2.5">Relevansi Teknis Fungsi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-900 text-zinc-300">
+                                <tr class="interactive-row"><td>Perpres No. 191 Tahun 2014</td><td>Mengatur urusan teknis penyediaan, pendistribusian hulu-hilir, serta batas harga jual eceran bahan bakar minyak nasional.</td><td class="text-red-400">Aturan Induk / Payung Hukum Subsidi BBM</td></tr>
+                                <tr class="interactive-row"><td>Perpres No. 43 Tahun 2018</td><td>Melakukan revisi amandemen atas materi Perpres 191/2014 guna menyesuaikan dinamika kondisi ekonomi harian.</td><td class="text-amber-400">Penyesuaian Kriteria Konsumen Berhak</td></tr>
+                                <tr class="interactive-row"><td>Perpres No. 117 Tahun 2021</td><td>Menyusun draf instruksi percepatan pelaksanaan program kendaraan bermotor listrik berbasis baterai di jalanan umum.</td><td class="text-blue-400">Arah Kebijakan Transisi Energi Bersih</td></tr>
+                                <tr class="interactive-row"><td>PP No. 36 Tahun 2004</td><td>Menata iklim legalitas dan legal standing tata cara pelaksanaan kegiatan usaha hilir minyak dan gas bumi nasional.</td><td class="text-zinc-500">Pengaturan Standardisasi Distribusi Retail</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr class="border-zinc-900">
+
+                <div class="p-4 bg-zinc-950/90 rounded-xl border border-zinc-900 space-y-2">
+                    <span class="text-[10px] font-bold text-red-500 tracking-widest block uppercase"><i class="fa-solid fa-triangle-exclamation"></i> Kunci Utama Rumus Dasar Eceran Komersial</span>
+                    <h4 class="text-xs font-bold text-white">Kepmen ESDM No. 245.K/MG.01/MEM.M/2022</h4>
+                    <p class="text-xs text-zinc-400 leading-relaxed">
+                        Aturan teknis ini wajib diterbitkan oleh pemerintah demi menjaga keadilan pasar, kepastian hukum, dan kesinambungan pasokan energi nasional. Regulasi ini memuat <b>rumus baku (formula harga dasar)</b> untuk menghitung batas atas dan batas bawah harga jual eceran Jenis BBM Umum (JBU) yang bersifat komersial. Dengan adanya formula ini, badan usaha penyedia energi (seperti Pertamina, Shell, atau Vivo) tidak boleh lagi asal-asalan atau sembarangan dalam menaikkan harga eceran di pom bensin demi meraup keuntungan sepihak, karena margin batas laba operasional mereka telah dikunci ketat oleh hukum negara. 
+                    </p>
+                    <p class="text-xs text-zinc-400 leading-relaxed">
+                        Regulasi ini memperjelas garis batas tata kelola energi nasional dengan mengunci pergerakan harga BBM komersial agar fluktuasi pasar komersial tidak mengganggu atau menguras dana Anggaran Pendapatan dan Belanja Negara (APBN) yang dikhususkan untuk subsidi rakyat. Selain itu, aturan ini bertindak sebagai instrumen legalitas yang menegaskan bahwa standar mutu bensin berkualitas rendah dan berpolusi tinggi jenis Premium RON 88 secara resmi dinyatakan <b>tidak berlaku lagi di seluruh wilayah Indonesia per tanggal 1 Januari 2023</b> guna memicu percepatan transisi nasional ke bahan bakar yang lebih bersih dan ramah lingkungan. Aturan ini juga memberikan fleksibilitas yang adil bagi badan usaha untuk mengevaluasi harga eceran berkala, sehingga mereka terhindar dari risiko kerugian arus kas akibat lonjakan harga minyak mentah impor yang dapat memicu kelangkaan stok pasokan di SPBU.
+                    </p>
                 </div>
             </div>
         </section>
 
         <section id="tab-data" class="tab-content hidden space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="glass-panel p-5 rounded-xl lg:col-span-2">
-                    <h3 class="text-sm font-bold text-red-500 mb-3 tracking-wider"><i class="fa-solid fa-table mr-2"></i>TABEL REKAPITULASI PERKEMBANGAN ECERAN DI JAKARTA (RP/LITER)</h3>
+                <div class="glass-panel p-5 rounded-xl lg:col-span-2 space-y-4">
+                    <h3 class="text-sm font-bold text-red-500 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-table"></i> PERKEMBANGAN HARGA ECERAN RESMI DI JAKARTA (RP/LITER)
+                    </h3>
                     <div class="overflow-x-auto text-xs">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="border-b border-zinc-800 text-zinc-400 bg-zinc-950/40">
-                                    <th class="p-2">Jenis Komoditas BBM</th>
-                                    <th class="p-2">2022 (Awal)</th>
+                                <tr class="border-b border-zinc-800 text-zinc-500 bg-zinc-950/50">
+                                    <th class="p-2">Komoditas BBM</th>
+                                    <th class="p-2">Awal 2022</th>
                                     <th class="p-2">Sept 2022</th>
                                     <th class="p-2">2023–2025</th>
                                     <th class="p-2 text-red-400">April 2026</th>
@@ -271,272 +357,331 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-zinc-900 text-zinc-300">
-                                <tr class="interactive-text"><td>Pertalite (RON 90)</td><td>7.650 [cite: 74]</td><td>10.000 [cite: 74]</td><td>10.000 [cite: 74]</td><td>10.000 [cite: 74]</td><td>10.000 [cite: 74]</td></tr>
-                                <tr class="interactive-text"><td>Solar Subsidi</td><td>5.150 [cite: 74]</td><td>6.800 [cite: 74]</td><td>6.800 [cite: 74]</td><td>6.800 [cite: 74]</td><td>6.800 [cite: 74]</td></tr>
-                                <tr class="interactive-text"><td>Pertamax (RON 92)</td><td>12.500 [cite: 74]</td><td>14.500 [cite: 74]</td><td>Fluktuatif [cite: 74]</td><td>12.300 [cite: 74]</td><td>12.300* [cite: 74]</td></tr>
-                                <tr class="interactive-text text-red-400"><td>Pertamax Turbo (RON 98)</td><td>13.100 [cite: 74]</td><td>15.900 [cite: 74]</td><td>~13.350 [cite: 74]</td><td>19.400 (+48%) [cite: 31, 74]</td><td>~13.100 [cite: 74]</td></tr>
-                                <tr class="interactive-text text-red-400"><td>Dexlite</td><td>11.950 [cite: 74]</td><td>17.100 [cite: 74]</td><td>~14.200 [cite: 74]</td><td>23.600 (+66%) [cite: 31, 74]</td><td>~14.200 [cite: 74]</td></tr>
-                                <tr class="interactive-text text-red-400"><td>Pertamina Dex</td><td>13.200 [cite: 74]</td><td>17.400 [cite: 74]</td><td>~14.500 [cite: 74]</td><td>23.900 (+65%) [cite: 31, 74]</td><td>~14.500 [cite: 74]</td></tr>
+                                <tr class="interactive-row"><td>Pertalite (RON 90)</td><td>7.650</td><td>10.000</td><td>10.000</td><td>10.000</td><td class="font-bold">10.000</td></tr>
+                                <tr class="interactive-row"><td>Solar Subsidi</td><td>5.150</td><td>6.800</td><td>6.800</td><td>6.800</td><td class="font-bold">6.800</td></tr>
+                                <tr class="interactive-row"><td>Pertamax (RON 92)</td><td>12.500</td><td>14.500</td><td>Fluktuatif</td><td>12.300</td><td class="font-bold text-amber-500">12.300*</td></tr>
+                                <tr class="interactive-row text-red-400"><td>Pertamax Turbo (RON 98)</td><td>13.100</td><td>15.900</td><td>~13.350</td><td>19.400</td><td class="font-bold">19.400</td></tr>
+                                <tr class="interactive-row text-red-400"><td>Dexlite</td><td>11.950</td><td>17.100</td><td>~14.200</td><td>23.600</td><td class="font-bold">23.600</td></tr>
+                                <tr class="interactive-row text-red-400"><td>Pertamina Dex</td><td>13.200</td><td>17.400</td><td>~14.500</td><td>23.900</td><td class="font-bold">23.900</td></tr>
                             </tbody>
                         </table>
                     </div>
-                    <p class="text-[10px] text-zinc-500 mt-3">* Catatan: Pertamina sempat menahan eceran Pertamax di angka Rp12.300 sejak Maret hingga awal Juni demi menjaga konsumsi [cite: 360], namun beban keekonomian asli sempat melesat di atas Rp17.000 akibat ketegangan global[cite: 361].</p>
+                    <p class="text-[10px] text-zinc-500 leading-relaxed">
+                        * Fakta Lapangan Manajemen Pertamina: Penjualan harga eceran Pertamax sebenarnya sudah berhasil ditahan di angka Rp12.300 sejak Maret hingga awal Juni demi memproteksi daya beli masyarakat kelas menengah. Namun, karena beban selisih harga pasar bebas dan harga eceran riil sudah terlampau tinggi di mana nilai keekonomian asli komoditas ini sempat melesat menyentuh di atas Rp17.000, maka penyesuaian harga akhirnya terpaksa dieksekusi demi menyelamatkan modal impor korporasi.
+                    </p>
                 </div>
 
                 <div class="glass-panel p-5 rounded-xl text-xs space-y-3">
-                    <h3 class="text-sm font-bold text-red-500 tracking-wider"><i class="fa-solid fa-wallet mr-2"></i>ALOKASI BEBAN FISKAL APBN</h3>
+                    <h3 class="text-sm font-bold text-red-500 tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-wallet"></i> TREN ANGGARAN SUBSIDI ENERGI
+                    </h3>
                     <div class="space-y-2 text-zinc-400">
-                        <div class="pb-1 border-b border-zinc-900"><b>2021:</b> Rp140,21 triliun <span class="text-zinc-600">(Pemulihan COVID)</span> [cite: 76]</div>
-                        <div class="pb-1 border-b border-zinc-900"><b>2022:</b> <span class="text-red-400">Rp502,4 triliun</span> <span class="text-zinc-600">(Lonjakan harga ICP efek Rusia-Ukraina)</span> [cite: 76, 84]</div>
-                        <div class="pb-1 border-b border-zinc-900"><b>2023:</b> Rp269,6 triliun <span class="text-zinc-600">(Realisasi pasca-reformasi)</span> [cite: 76]</div>
-                        <div class="pb-1 border-b border-zinc-900"><b>2024:</b> Rp329,9 triliun <span class="text-zinc-600">(Pagu ketetapan awal)</span> [cite: 76]</div>
-                        <div class="pb-1 border-b border-zinc-900"><b>2025:</b> Rp394 triliun <span class="text-zinc-600">(Termasuk dana tambahan berjalan)</span> [cite: 76]</div>
-                        <div class="p-2 bg-red-950/20 border border-red-900/50 rounded text-zinc-300"><b>2026:</b> <span class="text-white font-bold">Tambahan +Rp90–100 triliun</span> dimasukkan ke anggaran guna merespons konflik Selat Hormuz Timur Tengah[cite: 76].</div>
+                        <div class="pb-1 border-b border-zinc-900"><b>2021:</b> Rp140,21 triliun <span class="text-zinc-600">(Alokasi pemulihan pasca pandemi)</span></div>
+                        <div class="pb-1 border-b border-zinc-900"><b>2022:</b> <span class="text-red-400 font-bold">Rp502,4 triliun</span> <span class="text-zinc-600">(Lonjakan ekstrem 3x lipat akibat perang Rusia-Ukraina)</span></div>
+                        <div class="pb-1 border-b border-zinc-900"><b>2023:</b> Rp269,6 triliun <span class="text-zinc-600">(Realisasi pasca penataan ulang subsidi Sept 2022)</span></div>
+                        <div class="pb-1 border-b border-zinc-900"><b>2024:</b> Rp329,9 triliun <span class="text-zinc-600">(Pagu rancangan awal antisipasi batas ICP)</span></div>
+                        <div class="pb-1 border-b border-zinc-900"><b>2025:</b> Rp394 triliun <span class="text-zinc-600">(Termasuk akumulasi tambahan modal berjalan)</span></div>
+                        <div class="p-2 bg-red-950/20 border border-red-900/40 rounded text-zinc-300">
+                            <b>2026:</b> <span class="text-white font-bold">+Rp90–100 triliun (Tambahan Kontemporer)</span> disuntik langsung ke APBN atas komitmen Presiden Prabowo demi menahan harga bensin rakyat kecil dari dampak perang Selat Hormuz.
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="glass-panel p-5 rounded-xl text-xs">
-                <h3 class="text-sm font-bold text-red-500 mb-3 tracking-wider"><i class="fa-solid fa-circle-nodes mr-2"></i>KORELASI LIMA FAKTOR PENYEBAB UTAMA</h3>
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-zinc-400">
-                    <div class="interactive-text"><b>1. ICP Dunia Melonjak:</b> Sempat menyentuh USD 120–130/barel pada 2022, kembali melesat naik di tahun 2026 imbas sengketa bersenjata global[cite: 84, 85].</div>
-                    <div class="interactive-text"><b>2. Depresiasi Rupiah:</b> Pembayaran impor minyak menggunakan Dolar AS, pelemahan mata uang otomatis menggelembungkan ongkos rupiah nasional[cite: 86].</div>
-                    <div class="interactive-text"><b>3. Defisit Produksi Hilir:</b> Ketergantungan impor tinggi akibat gap pemenuhan kebutuhan yang gagal disuplai oleh sumur bor domestik[cite: 87].</div>
-                    <div class="interactive-text"><b>4. Tekanan Fiskal:</b> Membengkaknya porsi subsidi energi menyedot likuiditas keuangan negara, memaksa penyesuaian tarif berkala[cite: 88].</div>
-                    <div class="interactive-text"><b>5. Konflik Geopolitik:</b> Perang Ukraina-Rusia (2022), sengketa militer AS-Iran (2026), serta sabotase jalur pelayaran Selat Hormuz[cite: 89].</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                <div class="glass-panel p-5 rounded-xl space-y-3">
+                    <h4 class="text-sm font-bold text-red-500"><i class="fa-solid fa-circle-nodes"></i> LIMA FAKTOR PENYEBAB UTAMA KELUARNYA KEBIJAKAN</h4>
+                    <div class="space-y-2 text-zinc-400">
+                        <p><b>1. Amplitudo ICP Dunia:</b> Harga komoditas minyak mentah internasional merupakan penentu utama. Sempat menembus USD 120–130 per barel pada tahun 2022 dan kembali memuncak tajam di tahun 2026.</p>
+                        <p><b>2. Depresiasi Kurs Rupiah:</b> Karena seluruh rantai transaksi minyak bumi internasional wajib dibayar dalam denominasi Dolar AS, melemahnya nilai tukar rupiah otomatis membengkakkan total pengeluaran impor nasional.</p>
+                        <p><b>3. Defisit Produksi Hulu Nasional:</b> Ketimpangan riil antara kemampuan sumur bor minyak lokal dengan volume konsumsi harian masyarakat membuat Indonesia terikat pada skema impor pasar global.</p>
+                        <p><b>4. Ancaman Tekanan Fiskal APBN:</b> Ketika total pembiayaan subsidi harga komoditas mulai membakar porsi keuangan negara hingga mendekati angka Rp500 triliun, ruang gerak investasi publik menjadi terancam mandek.</p>
+                        <p><b>5. Eskalasi Krisis Geopolitik Global:</b> Perang terbuka antara Rusia-Ukraina (2022) serta meletusnya konflik senjata militer AS-Iran (2026) yang mengacaukan keamanan jalur pelayaran kapal tanker di Selat Hormuz.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-xl space-y-3">
+                    <h4 class="text-sm font-bold text-red-500"><i class="fa-solid fa-earth-americas"></i> PERBANDINGAN HARGA ECERAN ANTARNEGARA (USD/LITER — DATA 2025)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-zinc-800 text-zinc-500 bg-zinc-950/20">
+                                    <th class="p-2">Nama Negara</th>
+                                    <th class="p-2">Harga Eceran</th>
+                                    <th class="p-2">Kategori Model Subsidi Fiskal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-900 text-zinc-400">
+                                <tr class="interactive-row"><td>Malaysia</td><td>~0,47</td><td>Subsidi Besar (Komoditas RON95 dikunci penuh)</td></tr>
+                                <tr class="interactive-row text-white font-semibold"><td>Indonesia</td><td>~0,56</td><td>Subsidi Besar (Skema kombinasi JBT & kompensasi dana)</td></tr>
+                                <tr class="interactive-row"><td>Filipina</td><td>~1,05</td><td>Mekanisme Harga Pasar Bebas Komersial</td></tr>
+                                <tr class="interactive-row"><td>Thailand</td><td>~1,10</td><td>Harga Pasar Bebas dengan Injeksi Sedikit Subsidi</td></tr>
+                                <tr class="interactive-row"><td>India</td><td>~1,15</td><td>Sistem Pengendalian Subsidi Parsial Kelompok Tertentu</td></tr>
+                                <tr class="interactive-row"><td>Jerman</td><td>~1,90</td><td>Harga Pasar Bebas ditambah Beban Pajak Karbon Ketat</td></tr>
+                                <tr class="interactive-row"><td>Singapura</td><td>~2,10</td><td>Harga Pasar Bebas ditambah Pengenaan Pajak Tinggi Pajak Kendaraan</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="tab-dampak" class="tab-content hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
-                <div class="glass-panel p-5 rounded-xl">
-                    <h4 class="text-sm font-bold text-red-400 mb-2"><i class="fa-solid fa-bolt mr-2"></i>DAMPAK JANGKA PENDEK (0-12 BULAN)</h4>
-                    <p class="mb-1">• Guncangan laju inflasi IHK mendadak, terutama pada kluster pangan dan transportasi logistik[cite: 92].</p>
-                    <p class="mb-1">• Kemerosotan daya beli riil masyarakat berpenghasilan rendah / kaum miskin[cite: 93].</p>
-                    <p class="mb-1">• Kenaikan eceran tarif transportasi publik, angkot, dan logistik retail[cite: 94].</p>
-                    <p class="mb-1">• Pemicu eskalasi demonstrasi massa serta protes sosial dari serikat buruh[cite: 95, 125].</p>
-                    <p class="mb-1">• Pembengkakan biaya input operasional sektor manufaktur industri dan pengolahan tani[cite: 96].</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-zinc-400">
+                <div class="glass-panel p-5 rounded-xl space-y-2">
+                    <h4 class="text-sm font-bold text-red-400 flex items-center gap-1"><i class="fa-solid fa-bolt"></i> 5.1 PREDIKSI DAMPAK JANGKA PENDEK (0–12 BULAN)</h4>
+                    <p>• Terjadinya lonjakan tingkat inflasi nasional mendadak, terutama terkonsentrasi pada komponen transportasi dan komoditas pangan pokok harian.</p>
+                    <p>• Penurunan daya beli riil masyarakat berpenghasilan rendah akibat tergerus biaya akomodasi harian.</p>
+                    <p>• Kenaikan tarif angkutan umum informal dan ongkos logistik skala mikro-makro.</p>
+                    <p>• Memicu gelombang demonstrasi, aksi protes sosial, serta penolakan dari serikat buruh maupun organisasi sipil.</p>
+                    <p>• Pembengkakan biaya input operasional pada sektor industri pengolahan manufaktur serta peralatan mesin pertanian.</p>
                 </div>
-                <div class="glass-panel p-5 rounded-xl">
-                    <h4 class="text-sm font-bold text-zinc-400 mb-2"><i class="fa-solid fa-hourglass-half mr-2"></i>DAMPAK JANGKA PANJANG (>12 BULAN)</h4>
-                    <p class="mb-1">• Peluang pemotongan angka kemiskinan jika dana dialihkan ke bansos tertarget tepat[cite: 98].</p>
-                    <p class="mb-1">• Peningkatan efisiensi konsumsi energi nasional akibat berlakunya harga keekonomian riil[cite: 99].</p>
-                    <p class="mb-1">• Akselerasi masif investasi ekosistem kendaraan listrik (EV) serta EBT[cite: 100].</p>
-                    <p class="mb-1">• Memperlebar kelonggaran ruang fiskal anggaran untuk pembangunan infrastruktur[cite: 101].</p>
-                    <p class="mb-1 text-red-400">• Ancaman nyata jebakan stagflasi jika instrumen jaring sosial terlambat digulirkan[cite: 102].</p>
-                </div>
-            </div>
-
-            <div class="glass-panel p-5 rounded-xl text-xs space-y-4">
-                <h3 class="text-base font-bold text-red-500 tracking-wider"><i class="fa-solid fa-triangle-exclamation mr-2"></i>EKSES SOSIAL & TRANSFORMASI PERILAKU PASAR</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-zinc-400">
-                    <div>
-                        <p class="mb-2"><b>1. Migrasi Masif & Antrean Panjang SPBU:</b> Selisih harga ekstrem memicu perpindahan pengguna Pertamax ke lajur Pertalite bersubsidi, menimbulkan penumpukan antrean panjang kendaraan yang kerap mengganggu kelancaran lalu lintas area jalan pom bensin[cite: 367, 368].</p>
-                        <p class="mb-2"><b>2. Gesekan Sosial Horizontal:</b> Ketimpangan kepadatan antrean yang mencolok antara lajur subsidi (sesak) vs lajur komersial (lengang) memicu kelelahan psikologis dan adu mulut pengendara di lapangan[cite: 374].</p>
-                    </div>
-                    <div>
-                        <p class="mb-2"><b>3. Risiko Kriminalitas & Penimbunan Gelap:</b> Disparitas harga yang menganga lebar (Pertalite Rp10.000 vs Pertamax Rp16.250) merangsang hasrat oknum melakukan pidana penimbunan spekulatif demi keuntungan retail eceran pribadi[cite: 375, 376].</p>
-                        <p class="mb-2"><b>4. Ansietas Sosial Kolektif:</b> Muncul kecemasan meluas (<em class="text-zinc-300">social anxiety</em>) terkait potensi kenaikan tarif angkutan informal non-subsidi (ojek online, angkot) serta spekulasi kenaikan harga bahan pokok pangan[cite: 378].</p>
-                    </div>
+                <div class="glass-panel p-5 rounded-xl space-y-2">
+                    <h4 class="text-sm font-bold text-zinc-300 flex items-center gap-1"><i class="fa-solid fa-hourglass-half"></i> 5.2 PREDIKSI DAMPAK JANGKA PANJANG (>12 BULAN)</h4>
+                    <p>• Potensi penurunan tingkat kemiskinan makro jangka panjang apabila sisa dana penghematan dialokasikan ke program bansos tertarget tepat.</p>
+                    <p>• Lahirnya efisiensi konsumsi energi nasional karena masyarakat merespons sinyal harga keekonomian yang lebih realistis.</p>
+                    <p>• Akselerasi adopsi massal penggunaan kendaraan listrik (EV) serta konversi ke infrastruktur energi terbarukan.</p>
+                    <p>• Peningkatan ruang fiskal keuangan negara untuk mendanai investasi pembangunan infrastruktur dan perlindungan sosial.</p>
+                    <p class="text-red-400">• Ancaman risiko stagflasi berkelanjutan di masyarakat apabila instrumen jaring kompensasi sosial tidak memadai dalam nilai.</p>
                 </div>
             </div>
 
             <div class="glass-panel p-5 rounded-xl text-xs space-y-4">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-zinc-900 pb-2">
-                    <h3 class="text-sm font-bold text-red-500 tracking-wider"><i class="fa-solid fa-city mr-2"></i>ANATOMI GEJALA EKONOMI DI PUSAT PERDAGANGAN KOTA TASIKMALAYA</h3>
-                    <span class="text-[10px] text-zinc-500">Studi Kasus Lapangan Priangan Timur [cite: 320]</span>
+                <h3 class="text-base font-bold text-red-500 tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i> 5.3 EKSES SOSIAL MASYARAKAT & PERUBAHAN PERILAKU PASAR
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-zinc-400">
+                    <div class="space-y-3">
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <strong class="text-white block mb-1">A. Migrasi Konsumen & Fenomena Antrean Panjang SPBU</strong>
+                            Banyak pemilik kendaraan roda dua dan roda empat pribadi yang sebelumnya menggunakan Pertamax kini bermigrasi massal beralih ke Pertalite demi menghemat pengeluaran harian. Dampak sosialnya adalah terjadinya penumpukan dan antrean panjang di jalur Pertalite pada berbagai SPBU, yang sering kali memicu kemacetan lalu lintas di sekitar area jalan pom bensin.
+                        </div>
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <strong class="text-white block mb-1">B. Ketegangan & Gesekan Sosial di Area Pom Bensin</strong>
+                            Perubahan harga mendadak meningkatkan beban kerja psikologis petugas lapangan SPBU. Perbedaan laju antrean yang mencolok antara jalur Pertalite yang padat merayap dengan lajur Pertamax yang lengang sepi tak jarang memicu gesekan sosial horizontal atau adu mulut antar-pengendara yang tidak sabar.
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <strong class="text-white block mb-1">C. Tekanan Ekonomi Kaum Squeezed Middle Class (Kelas Menengah)</strong>
+                            Masyarakat kelas menengah tidak mendapatkan asupan bantuan sosial (bansos) dari pemerintah, namun mereka adalah konsumen utama komoditas Pertamax. Kenaikan harga ini langsung memotong porsi pendapatan yang bisa digunakan untuk kebutuhan sekunder lain (rekreasi atau tabungan), sehingga kelompok ini mengalami penurunan standar hidup dan kecemasan finansial.
+                        </div>
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <strong class="text-white block mb-1">D. Risiko Kriminalitas Penimbunan Gelap & Ansietas Pokok</strong>
+                            Secara tidak langsung, disparitas (jarak) harga yang semakin jauh antara Pertalite (Rp10.000) dan Pertamax (Rp16.250) memperbesar risiko terjadinya praktik penimbunan ilegal atau penyalahgunaan Pertalite bersubsidi oleh oknum eceran hitam demi mencari laba pribadi. Kondisi ini melahirkan <em class="text-zinc-300">social anxiety</em> kolektif terkait potensi lonjakan tarif angkutan umum informal dan spekulasi sembako.
+                        </div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-zinc-400">
-                    <div class="interactive-text">
-                        <b class="text-white block mb-1">A. Lesunya Sentra Kuliner Malam</b>
-                        Alokasi bulanan tersedot untuk tangki motor membuat mahasiswa dan pekerja muda memangkas aktivitas nongkrong. Omzet kedai kopi sepanjang koridor Jl. HZ. Mustofa, Jl. Perintis Kemerdekaan, dan Dadaha melandai drastis[cite: 426, 427, 428].
+            </div>
+
+            <div class="glass-panel p-5 rounded-xl text-xs space-y-4">
+                <h3 class="text-base font-bold text-red-500 tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-city"></i> 5.4 ANATOMI REALITAS SOSIAL EKONOMI DI PUSAT PERDAGANGAN KOTA TASIKMALAYA
+                </h3>
+                <p class="text-zinc-400">Kenaikan harga Pertamax menjadi Rp16.250 per liter berdampak langsung pada perputaran uang di Kota Tasikmalaya sebagai pusat perdagangan Priangan Timur, melemahkan daya beli masyarakat setempat lintas sektor:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-zinc-400">
+                    <div class="p-3 bg-zinc-900/40 rounded border border-zinc-900">
+                        <strong class="text-white block mb-1">1. Sepinya Kafe & Pusat Kuliner Jalanan</strong>
+                        Kota Tasikmalaya terkenal dengan pertumbuhan kafe, kedai kopi, dan sentra kuliner malam (seperti di sepanjang Jl. HZ. Mustofa, Jl. Perintis Kemerdekaan, atau area Dadaha). Akibat alokasi dana tersedot untuk bensin motor, masyarakat lokal—terutama mahasiswa dan pekerja muda—mulai mengurangi aktivitas nongkrong. Omzet pelaku usaha <em class="text-zinc-300">coffee shop</em> di Tasikmalaya terpantau mulai melandai semenjak seminggu terakhir kebijakan digulirkan.
                     </div>
-                    <div class="interactive-text">
-                        <b class="text-white block mb-1">B. Kemerosotan Industri Kreatif Daerah</b>
-                        Arus konsumen luar kota (Bandung/Jakarta) yang biasa bertandang menggunakan mobil pribadi langsung ke sentra industri kerajinan Batik Sukaraja serta Kelom Geulis Tamansari menyusut akibat gundulan ongkos bensin Pertamax[cite: 431].
+                    <div class="p-3 bg-zinc-900/40 rounded border border-zinc-900">
+                        <strong class="text-white block mb-1">2. Penurunan Omzet Sentra Industri Kreatif (Batik & Kelom Geulis)</strong>
+                        Para pengrajin di sentra industri budaya seperti Batik Sukaraja atau Kelom Geulis di Kecamatan Tamansari merasakan dampak tidak langsung yang memukul omzet harian mereka. Konsumen dari luar kota (seperti Bandung atau Jakarta) yang biasanya sengaja datang menggunakan mobil pribadi untuk berbelanja langsung ke Tasikmalaya kini berkurang karena biaya operasional perjalanan (bensin Pertamax + tol) naik drastis.
                     </div>
-                    <div class="interactive-text">
-                        <b class="text-white block mb-1">C. Defisit Kunjungan Mal Modern</b>
-                        Trafik pembelian barang tersier modern di Asia Plaza dan Mayasari Plaza anjlok bebas. Ibu rumah tangga beralih fokus mutlak demi mengamankan sembako pangan pokok di Pasar Tradisional Cikurubuk[cite: 433, 434].
+                    <div class="p-3 bg-zinc-900/40 rounded border border-zinc-900">
+                        <strong class="text-white block mb-1">3. Lesunya Pusat Perbelanjaan Ritel Modern</strong>
+                        Daya beli masyarakat beralih sepenuhnya untuk mengamankan kebutuhan pokok (sembako) di pasar tradisional seperti Pasar Cikurubuk. Dampak buruknya langsung dirasakan oleh pengelola mal atau ritel modern (seperti Asia Plaza atau Mayasari Plaza), di mana tingkat kunjungan harian dan pembelian barang-barang non-primer seperti pakaian, sepatu, dan kosmetik mengalami penurunan.
                     </div>
-                    <div class="interactive-text">
-                        <b class="text-white block mb-1">D. Booming Toko Grosir Murah Lokal</b>
-                        Terjadi tren perpindahan konsumen dari jaringan minimarket waralaba nasional menuju gerai toko grosir lokal murah demi mengejar selisih promo ratusan rupiah guna menutupi pembengkakan pos bahan bakar[cite: 436, 437].
+                    <div class="p-3 bg-zinc-900/40 rounded border border-zinc-900">
+                        <strong class="text-white block mb-1">4. Peralihan ke Toko Kelontong Grosir Murah Domestik</strong>
+                        Warga Kota Tasikmalaya kini semakin sensitif terhadap harga. Terjadi tren pergeseran tempat belanja dari minimarket waralaba nasional ke toko-toko grosir lokal yang berani menawarkan harga selisih beberapa ratus rupiah lebih murah. Ibu rumah tangga di Tasikmalaya kini lebih memilih aktif berburu barang promo demi menutupi pengeluaran bensin motor mereka yang membengkak.
                     </div>
-                    <div class="interactive-text">
-                        <b class="text-white block mb-1">E. Penundaan Upgrade Gadget Kompleks HZ</b>
-                        Koridor gerai bisnis telekomunikasi sepanjang Jl. HZ. Mustofa melaporkan transaksi tunai/kredit mandek; masyarakat memilih merawat gawai elektronik lama mereka hingga ketidakpastian makro stabil[cite: 439, 440].
+                    <div class="p-3 bg-zinc-900/40 rounded border border-zinc-900">
+                        <strong class="text-white block mb-1">5. Penundaan Upgrade Gadget & Elektronik Kompleks HZ</strong>
+                        Di sepanjang koridor pusat bisnis utama Jl. HZ. Mustofa, toko-toko handphone dan elektronik melaporkan terjadinya penurunan nilai transaksi bulanan. Warga Tasikmalaya memilih untuk merawat barang elektronik lama yang ada dan menunda rencana pengajuan kredit atau pembelian <em class="text-zinc-300">smartphone</em> baru sampai situasi ketidakpastian ekonomi kembali stabil.
                     </div>
-                    <div class="interactive-text text-red-400">
-                        <b class="block mb-1">F. Jeratan Krisis Squeezed Middle Class</b>
-                        Kluster masyarakat kelas menengah terjepit struktural: aset pendapatan mereka tergerus karena bertindak sebagai konsumen inti Pertamax, namun luput dari kriteria penerima asupan bansos tunai pemerintah[cite: 370, 371].
+                    <div class="p-3 bg-red-950/20 rounded border border-red-900/50 text-red-400">
+                        <strong class="block mb-1">6. Pembengkakan Biaya Logistik Operasional UMKM</strong>
+                        Meskipun armada kendaraan logistik besar menggunakan Solar, banyak pelaku UMKM, pedagang keliling, dan penyedia jasa pengiriman skala kecil (termasuk pengemudi ojek online) mengandalkan bensin RON 92 untuk menjaga performa mesin kendaraan operasional mereka harian. Kenaikan ini langsung menaikkan biaya produksi dan operasional transportasi harian, memangkas laba bersih usaha.
                     </div>
                 </div>
 
-                <div class="p-4 bg-zinc-950 rounded-xl border border-zinc-900 mt-2 space-y-3">
-                    <h4 class="text-xs font-bold text-white"><i class="fa-solid fa-warehouse mr-2"></i>PARAMETER TEKNIS OPERASIONAL FUEL TERMINAL (FT) TASIKMALAYA</h4>
+                <div class="p-4 bg-zinc-950 rounded-xl border border-zinc-900 mt-4 space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider"><i class="fa-solid fa-warehouse mr-2"></i>5.5 PARAMETER SPESIFIKASI TEKNIS FUEL TERMINAL (FT) TASIKMALAYA</h4>
                     <p class="text-[11px] text-zinc-400 leading-relaxed">
-                        FT Tasikmalaya bertindak sebagai organ penyimpan strategis dan pusat hub logistik sebelum tangki disalurkan ke SPBU retail[cite: 396, 397]. Volume penyaluran normal harian depo berkisar di angka <b>1.100 hingga 1.500 Kiloliter (KL)</b> untuk mencukupi zona Priangan Timur[cite: 411]. Standardisasi ketahanan tangki (<em class="text-zinc-300">coverage days</em>) dirancang aman menyuplai pasar selama <b>11 hingga 14 hari</b> jika kilang utama Cilacap mengalami disrupsi pipa[cite: 412, 417, 419]. Pada masa <em class="text-zinc-300">peak season</em> (Mudik Lebaran/Nataru), volume penyaluran harian melonjak 87% menyentuh angka <b>1.552 KL per hari</b>[cite: 416]. Sistem monitoring saat ini telah mengintegrasikan otomatisasi digital bersama BPH Migas; sensor proaktif otomatis mengagendakan pengiriman truk tangki baru jika cadangan internal SPBU tersisa di bawah batas aman 2 hari[cite: 421, 422].
+                        Fuel Terminal Tasikmalaya memegang peranan krusial sebagai tempat penyimpanan strategis (storage) cadangan energi skala besar serta bertindak sebagai pusat hub logistik distribusi energi regional sebelum disalurkan ke SPBU atau konsumen industri. Depo ini memiliki tangki-tangki raksasa untuk menampung jutaan liter berbagai jenis bahan bakar guna mengamankan pasokan di suatu daerah dan mengantisipasi jika terjadi keterlambatan pengiriman dari kilang minyak utama. Rata-rata <b>penyaluran harian normal dari FT Tasikmalaya berkisar antara 1.100 hingga 1.500 Kiloliter (KL) per hari</b> (berada di angka rata-rata ±1.200 KL harian pada kondisi normal) untuk memenuhi kebutuhan wilayah Priangan Timur. 
                     </p>
-                </div>
-            </div>
-        </section>
-
-        <section id="tab-swot" class="tab-content hidden space-y-6">
-            <div class="glass-panel p-6 rounded-xl space-y-6 text-xs text-zinc-400">
-                <div>
-                    <h3 class="text-base font-bold text-red-500 mb-3 tracking-wider"><i class="fa-solid fa-table-cells mr-2"></i>5.1 MATRIKS ANATOMI S.W.O.T. ENERGI NASIONAL</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-3 bg-zinc-900/30 rounded border-t-2 border-emerald-500">
-                            <span class="text-emerald-400 font-bold block mb-1">STRENGTHS (Kekuatan)</span>
-                            • Ketersediaan cadangan tambahan APBN 2026 sebesar Rp90-100T untuk bantalan pasar[cite: 136].<br>
-                            • Skalabilitas jangkauan hulu-hilir PT Pertamina sebagai BUMN tunggal logistik nasional[cite: 137].<br>
-                            • Pasar konsumen domestik masif didukung basis populasi tembus di atas 280 juta jiwa[cite: 138].<br>
-                            • Komitmen politik kabinet mengunci eceran BBM subsidi demi menjaga daya beli warga[cite: 139].
-                        </div>
-                        <div class="p-3 bg-zinc-900/30 rounded border-t-2 border-red-500">
-                            <span class="text-red-400 font-bold block mb-1">WEAKNESSES (Kelemahan)</span>
-                            • Kemerosotan produksi minyak bumi lokal; sumur bor domestik hanya memasok 38% total konsumsi[cite: 141].<br>
-                            • Keterbatasan kapasitas infrastruktur kilang pengolahan minyak mentah hulu[cite: 142].<br>
-                            • Ketimpangan harga eceran riil antara wilayah Jawa-Bali dengan kluster daerah terpencil 3T[cite: 143].<br>
-                            • Desain skema subsidi berbasis harga komoditas secara inheren melahirkan salah sasaran sistemik[cite: 144].
-                        </div>
-                        <div class="p-3 bg-zinc-900/30 rounded border-t-2 border-blue-500">
-                            <span class="text-blue-400 font-bold block mb-1">OPPORTUNITIES (Peluang)</span>
-                            • Momentum transformasi pemindahan skema jaring harga langsung terikat pada verifikasi data NIK[cite: 147].<br>
-                            • Penetrasi percepatan adopsi ekosistem EV dan implementasi QR MyPertamina pengunci kebocoran[cite: 146, 149].<br>
-                            • Kekayaan diversifikasi EBT (panas bumi, surya, kincir angin) yang masif belum tergarap optimal[cite: 148].<br>
-                            • Diplomasi energi internasional mencari pasokan mentah murah dari produsen global alternatif[cite: 150].
-                        </div>
-                        <div class="p-3 bg-zinc-900/30 rounded border-t-2 border-amber-500">
-                            <span class="text-amber-400 font-bold block mb-1">THREATS (Ancaman)</span>
-                            • Kerentanan blokade rantai pasok maritim global di titik rawan kriitil seperti Selat Hormuz[cite: 156].<br>
-                            • Guncangan inflasi energi global berisiko menyeret ekonomi domestik ke lubang stagflasi makro[cite: 154].<br>
-                            • Resistensi gerakan politik massa horizontal serta hantaman depresiasi nilai tukar rupiah[cite: 153, 155].
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="border-zinc-900">
-
-                <div>
-                    <h3 class="text-base font-bold text-red-500 mb-3 tracking-wider"><i class="fa-solid fa-globe mr-2"></i>5.2 EVALUASI DIMENSI P.E.S.T.E.L. KELOLA ENERGI</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="interactive-text">
-                            <b class="text-white block mb-0.5">POLITIK:</b>
-                            Dimensi politik kental historis; keputusan Prabowo mengunci harga subsidi hingga akhir 2026 merupakan opsi taktis mengamankan stabilitas legitimasi kekuasaan dari oposisi[cite: 159, 161].
-                        </div>
-                        <div class="interactive-text">
-                            <b class="text-white block mb-0.5">EKONOMI:</b>
-                            Lonjakan harga energi menekan daya saing ekspor produk manufaktur akibat pembengkakan ongkos input daya [cite: 168], serta memicu koreksi angka konsumsi rumah tangga dalam PDB[cite: 165].
-                        </div>
-                        <div class="interactive-text">
-                            <b class="text-white block mb-0.5">SOSIAL:</b>
-                            Nelayan kecil, petani hortikultura pengguna pompanisasi air, serta pengemudi ojek online mengalami tekanan pendapatan ekstrem yang rentan melempar mereka ke bawah garis kemiskinan[cite: 171, 172, 173].
-                        </div>
-                        <div class="interactive-text">
-                            <b class="text-white block mb-0.5">TEKNOLOGI:</b>
-                            Pemanfaatan instrumen digital QR code MyPertamina bertindak sebagai sensor pengendali hak penugasan guna menutup ruang manipulasi oknum lapangan[cite: 176].
-                        </div>
-                        <div class="interactive-text">
-                            <b class="text-white block mb-0.5">LINGKUNGAN:</b>
-                            Subsidi komoditas secara tidak langsung mendanai polusi emisi karbon fossil fuel. Reformasi subsidi memaksa warga melirik konversi energi bersih rendah emisi[cite: 178, 179].
-                        </div>
-                        <div class="interactive-text">
-                            <b class="text-white block mb-0.5">HUKUM:</b>
-                            Mahkamah Konstitusi menegaskan pengelolaan mineral hulu-hilir wajib bersandar pada kemakmuran rakyat, mengikat dominasi Pertamina dikawal ketat regulasi KPPU[cite: 181, 183].
-                        </div>
+                    <p class="text-[11px] text-zinc-400 leading-relaxed">
+                        Berdasarkan standar manajemen ketahanan energi operasional PT Pertamina (Persero), pasokan stok di dalam tangki depo tersebut dirancang untuk memiliki <b>daya tahan (coverage days) sekitar 11 hingga 14 hari</b> dalam kondisi operasional normal. Jika terjadi kendala suplai dari kilang utama, tangki penampungan di Depo Tasikmalaya masih sanggup memasok seluruh SPBU di Priangan Timur selama kurang lebih hampir 2 minggu tanpa kiriman baru. Suplai produk BBM ke FT Tasikmalaya dikirim secara berkelanjutan melalui <b>jalur pipa bawah tanah terintegrasi</b> dari fasilitas Terminal BBM Balongan/Cilacap serta dukungan armada tangki eksternal. 
+                    </p>
+                    <p class="text-[11px] text-zinc-400 leading-relaxed">
+                        Pada masa puncak (seperti puncak arus mudik Lebaran atau libur Nataru), penyaluran harian bisa melonjak hingga <b>87% di atas kuota normal atau menembus 1.552 KL per hari</b>, di mana depo bertugas mempercepat operasional distribusi 24 jam untuk menghindari kelangkaan. Sebelum disalurkan ke masyarakat, BBM wajib melewati uji laboratorium ketat guna memastikan tingkat oktan (RON) atau cetane (CN) sesuai standar regulasi, serta proses penyaringan untuk menjamin tidak ada kandungan air atau kotoran yang ikut terbawa ke dalam armada truk tangki merah-putih Pertamina. Berdasarkan koordinasi berkala bersama BPH Migas dan Sales Branch Manager Pertamina Tasikmalaya, sistem monitoring stok saat ini sudah menggunakan teknologi otomatisasi digital dengan menerapkan <b>sistem pengiriman proaktif</b>; ketika sensor mendeteksi stok cadangan SPBU di area Priangan Timur tersisa untuk &lt;2 hari, depo akan langsung menjadwalkan pengiriman truk tangki baru secara otomatis tanpa perlu menunggu pihak SPBU kehabisan bensin.
+                    </p>
+                    <div class="p-2.5 bg-zinc-900 border border-zinc-800 rounded text-[11px] text-emerald-400">
+                        <b>Sisi Dampak Positif Korporasi (Pertamina):</b> Dari sisi korporasi, kebijakan ini berdampak positif bagi kesehatan finansial PT Pertamina (Persero). Pertamina tidak lagi harus menutupi selisih harga keekonomian dari kantong sendiri (menghindari kerugian arus kas), sehingga perusahaan memiliki kapital yang sehat untuk menjaga stabilitas impor minyak mentah dan melakukan investasi pada infrastruktur energi nasional.
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="tab-manifes" class="tab-content hidden space-y-6">
+            <div class="glass-panel p-5 rounded-xl text-xs space-y-3 text-zinc-400">
+                <h4 class="text-sm font-bold text-red-500"><i class="fa-solid fa-users"></i> 6.1 PEMETAAN KEPENTINGAN PEMANGKU KEBIJAKAN (STAKEHOLDERS)</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-2.5 bg-black/40 rounded border border-zinc-900"><b>1. Pemerintah:</b> Menjaga stabilitas makro, kendali inflasi, menyelamatkan APBN dari subsidi, mempertahankan legitimasi politik. Menghadapi dilema trade-off keterjangkauan jangka pendek vs fiskal jangka panjang.</div>
+                    <div class="p-2.5 bg-black/40 rounded border border-zinc-900"><b>2. Masyarakat:</b> Kelompok rentan paling terdampak inflasi pangan/transportasi walau paling sedikit nikmati subsidi. Kelas menengah terdampak biaya transportasi pribadi namun adaptif. Kelompok atas efeknya paling kecil.</div>
+                    <div class="p-2.5 bg-black/40 rounded border border-zinc-900"><b>3. Akademisi & Riset:</b> Berperan menghasilkan kajian empiris dampak kebijakan dan beri rekomendasi berbasis bukti (seperti LPEM FEB UI, INDEF, P2E LIPI yang aktif mengkaji dampak kenaikan).</div>
+                    <div class="p-2.5 bg-black/40 rounded border border-zinc-900"><b>4. Masyarakat Sipil:</b> LSM dan organisasi buruh (seperti KSPI) vokal menentang kenaikan, mengartikulasikan kepentingan kelompok rentan yang tidak terwakili dalam proses pengambilan kebijakan.</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs text-zinc-400">
+                <div class="glass-panel p-5 rounded-xl lg:col-span-2 space-y-3">
+                    <h3 class="text-sm font-bold text-red-500 tracking-wider flex items-center gap-2"><i class="fa-solid fa-table-cells"></i> 6.2 ANATOMI MATRIKS S.W.O.T. PENGELOLAAN ENERGI</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[11px]">
+                        <div class="p-2.5 bg-zinc-900/30 rounded border-l-2 border-emerald-500">
+                            <span class="text-emerald-400 font-bold block mb-1">STRENGTHS (Kekuatan)</span>
+                            • Kemampuan fiskal signifikan untuk jaga harga subsidi (tambahan Rp90-100T di 2026).<br>
+                            • Pertamina kuasai seluruh rantai nilai dengan skalabilitas dan jangkauan nasional tak tertandingi swasta.<br>
+                            • Pasar energi domestik masif dengan populasi 280+ juta jiwa.<br>
+                            • Komitmen politik kuat pemerintahan Prabowo untuk melindungi daya beli masyarakat.
+                        </div>
+                        <div class="p-2.5 bg-zinc-900/30 rounded border-l-2 border-red-500">
+                            <span class="text-red-400 font-bold block mb-1">WEAKNESSES (Kelemahan)</span>
+                            • Produksi minyak terus menurun; pasokan domestik hanya penuhi 38% konsumsi nasional.<br>
+                            • Kapasitas infrastruktur kilang pengolahan domestik belum mampu imbangi pertumbuhan konsumsi.<br>
+                            • Disparitas harga BBM antara wilayah Jawa-Bali dan daerah terpencil 3T masih signifikan.<br>
+                            • Desain subsidi berbasis harga secara inheren tidak efisien karena menguntungkan semua pengguna tanpa memandang ekonomi.
+                        </div>
+                        <div class="p-2.5 bg-zinc-900/30 rounded border-l-2 border-blue-500">
+                            <span class="text-blue-400 font-bold block mb-1">OPPORTUNITIES (Peluang)</span>
+                            • Transformasi subsidi harga ke subsidi langsung berbasis data kependudukan (NIK).<br>
+                            • Penetrasi kendaraan listrik (EV) kurangi beban subsidi; implementasi digital QR code MyPertamina.<br>
+                            • Potensi energi terbarukan Indonesia (panas bumi, surya, angin) yang masif sebagai substitusi.<br>
+                            • Kerja sama energi internasional dengan produsen minyak untuk pasokan mentah kompetitif.
+                        </div>
+                        <div class="p-2.5 bg-zinc-900/30 rounded border-l-2 border-amber-500">
+                            <span class="text-amber-400 font-bold block mb-1">THREATS (Ancaman)</span>
+                            • Gejolak konflik geopolitik global (seperti perang AS-Iran 2026) yang ancam stabilitas fiskal.<br>
+                            • Pelemahan nilai tukar rupiah secara otomatis tingkatkan biaya impor BBM.<br>
+                            • Kenaikan harga energi dunia bersama pelemahan daya beli dapat ciptakan kondisi stagflasi.<br>
+                            • Kenaikan harga BBM selalu hadapi resistensi politik kuat; gangguan jalur pelayaran (Selat Hormuz, Laut Merah).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-xl space-y-3">
+                    <h3 class="text-sm font-bold text-red-500 tracking-wider flex items-center gap-1"><i class="fa-solid fa-code-compare"></i> 6.3 PRESEDEN HISTORIS AKSES SUBSIDI</h3>
+                    <p class="text-[11px]"><b>Kasus Kenaikan 3 September 2022:</b> Anggaran kompensasi energi membengkak 3x lipat dari Rp152,5T menjadi Rp502,4T akibat ICP Rusia-Ukraina. Harga Pertalite naik ke Rp10.000 (+30,7%), Solar ke Rp6.800 (+32%). Pemerintah beri BLT BBM Rp12,4T untuk 20,65 juta keluarga (Rp150.000/bulan), BSU Rp9,6T untuk 16 juta pekerja, dan 2% DTU untuk transportasi. Hasilnya inflasi yoy September melesat 5,95% dan administered prices ke 13,28%.</p>
+                    <p class="text-[11px]"><b>Pelajaran Komparatif Global:</b> Iran (2019) menaikkan eceran +200% secara mendadak tanpa kompensasi berujung protes gagal massal. Nigeria (2023) menghapus subsidi mendadak (+200%) berhasil dialihkan ke infrastruktur walau menyakitkan. Malaysia (2024) sukses kurangi subsidi RON95 bertahap menggunakan skema tertarget kartu kependudukan khusus kelompok B40.</p>
+                </div>
+            </div>
+
             <div class="glass-panel p-5 rounded-xl text-xs space-y-4">
-                <h3 class="text-sm font-bold text-red-500 tracking-wider"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>TRIPLE REFORM STRATEGY & TIGA SKENARIO MASA DEPAN (2026-2030)</h3>
+                <h4 class="text-sm font-bold text-red-500 tracking-wider"><i class="fa-solid fa-wand-magic-sparkles"></i> 6.4 MATRIKS 3 SKENARIO PROYEKSI (2026-2030) & TRIPLE REFORM STRATEGY</h4>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-[11px]">
                         <thead>
                             <tr class="border-b border-zinc-800 text-zinc-500 bg-zinc-950/20">
-                                <th class="p-2">Aspek Pemantauan</th>
+                                <th class="p-2">Aspek Proyeksi</th>
                                 <th class="p-2 text-emerald-400">Skenario Optimis</th>
                                 <th class="p-2 text-amber-400">Skenario Moderat</th>
                                 <th class="p-2 text-red-400">Skenario Pesimis</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-900 text-zinc-400">
-                            <tr><td class="p-2 font-bold text-zinc-300">Minyak Dunia & Kurs</td><td>USD 60–75 / Rp14.000–15.000 [cite: 234]</td><td>USD 75–95 / Rp15.000–16.500 [cite: 234]</td><td>&gt;USD 100 / &gt;Rp17.000 [cite: 234]</td></tr>
-                            <tr><td class="p-2 font-bold text-zinc-300">Reformasi & Inflasi</td><td>Subsidi NIK Sukses / 2,5–3,5% [cite: 234]</td><td>Reformasi Parsial / 3–5% [cite: 234]</td><td>Tertunda / Lonjakan 7–9% [cite: 234]</td></tr>
-                            <tr><td class="p-2 font-bold text-zinc-300">Dampak Kemiskinan / EV</td><td>Stabil Turun / Armada EV 10-15% [cite: 234]</td><td>Stabil / Penetrasi EV 5-10% [cite: 234]</td><td>+5–8 Juta Jiwa Miskin Baru / &lt;5% [cite: 234]</td></tr>
+                            <tr><td class="p-2 font-semibold text-zinc-300">Harga Minyak Dunia / Kurs</td><td>USD 60–75 per barel / Rp14.000–15.000</td><td>USD 75–95 per barel / Rp15.000–16.500</td><td>&gt;USD 100 per barel / &gt;Rp17.000 per USD</td></tr>
+                            <tr><td class="p-2 font-semibold text-zinc-300">Reformasi Subsidi / Inflasi</td><td>Subsidi berbasis NIK berhasil / 2,5–3,5%</td><td>Reformasi berjalan parsial / 3–5%</td><td>Tertunda terus akibat politik / 7–9%</td></tr>
+                            <tr><td class="p-2 font-semibold text-zinc-300">Proyeksi Kemiskinan / EV 2030</td><td>Stabil atau mengalami penurunan / 10–15% armada</td><td>Posisi stabil di masyarakat / 5–10% armada</td><td>Bertambah +5–8 juta orang miskin / &lt;5% armada</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-zinc-400 pt-2 border-t border-zinc-900">
-                    <div class="p-2 bg-black/30 rounded"><b>Reform the Subsidy:</b> Segera jalankan transformasi penargetan subsidi tertutup melekat NIK agar dana mengalir murni bagi kaum papa[cite: 242, 281].</div>
-                    <div class="p-2 bg-black/30 rounded"><b>Compensate the Vulnerable:</b> Lipat gandakan nominal, cakupan wilayah, serta durasi durabilitas BLT Energi penahan guncangan biaya hidup[cite: 282].</div>
-                    <div class="p-2 bg-black/30 rounded"><b>Accelerate the Transition:</b> Alihkan penghematan fiskal sisa subsidi komoditas untuk mendanai massal infrastruktur angkutan publik[cite: 283].</div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-[11px] pt-3 border-t border-zinc-900 text-zinc-400">
+                    <div>
+                        <strong class="text-white block mb-1">A. Rekomendasi Jangka Pendek (0–12 Bulan)</strong>
+                        • <b>S1 (Jaring Pengaman):</b> Perluas cakupan dan nilai dana BLT energi untuk seluruh kelompok miskin/hampir miskin dalam DTKS, disesuaikan inflasi aktual.<br>
+                        • <b>S2 (Tarif Angkutan):</b> Perkuat alokasi subsidi tarif pada angkutan umum massal (BRT, KRL, MRT) agar publik punya alternatif murah.<br>
+                        • <b>S3 (Komunikasi Jujur):</b> Bangun narasi kebijakan transparan berbasis data ke mana sisa dana penghematan dialihkan.
+                    </div>
+                    <div>
+                        <strong class="text-white block mb-1">B. Rekomendasi Jangka Menengah (1–3 Tahun)</strong>
+                        • <b>S4 (Subsidi NIK):</b> Eksekusi transformasi subsidi dari komoditas beralih ke orang berbasis data kependudukan NIK.<br>
+                        • <b>S5 (Diversifikasi Energi):</b> Percepat investasi sektor energi terbarukan lokal (panas bumi, surya, angin) pangkas impor.<br>
+                        • <b>S6 (Akselerasi EV):</b> Beri insentif fiskal komprehensif (bebas pajak impor, subsidi pembelian, sebaran SPKLU).<br>
+                        • <b>S7 (Kilang Domestik):</b> Rampungkan proyek revitalisasi kilang baru (proyek RDMP Balikpapan) dongkrak kapasitas pengolahan.
+                    </div>
+                    <div>
+                        <strong class="text-white block mb-1">C. Rekomendasi Jangka Panjang (&gt;3 Tahun)</strong>
+                        • <b>S8 (Redesain Total):</b> Rombak menyeluruh skema subsidi energi nasional dari subsidi barang menjadi subsidi layanan publik.<br>
+                        • <b>S9 (Roadmap Net-Zero):</b> Jalankan internalisasi biaya emisi lingkungan ke dalam harga energi untuk target Net-Zero 2060.<br>
+                        • <b>S10 (Eksplorasi Hulu Migas):</b> Perbaiki skema bagi hasil (PSC) hulu migas agar menarik investasi eksplorasi baru pembalik tren penurunan produksi.
+                    </div>
+                </div>
+                <div class="p-2.5 bg-zinc-950 rounded border border-zinc-900 text-[11px] text-zinc-500">
+                    <b>Indikator Target Sukses Fiskal-Sosial:</b> Anggaran subsidi turun di bawah 2% PDB tanpa korbankan akses energi rentan, inflasi pasca-kebijakan terjaga dalam target BI (2,5±1%) dalam 4 kuartal, minimal 80% manfaat subsidi dinikmati kelompok B40, serta tidak terjadi peningkatan kemiskinan dan bauran EBT terpenuhi sesuai target KEN.
                 </div>
             </div>
 
-            <div class="glass-panel p-6 rounded-xl border border-red-900/40 bg-gradient-to-b from-red-950/10 to-black/80 shadow-2xl">
-                <div class="text-center max-w-2xl mx-auto mb-6">
-                    <span class="text-[10px] font-bold text-red-500 tracking-widest uppercase block mb-1">Pernyataan Sikap Resmi Pergerakan</span>
-                    <h3 class="text-xl font-black text-white tracking-tight">PC PMII KOTA TASIKMALAYA</h3>
-                    <p class="text-xs text-zinc-400 mt-1">
-                        Menyikapi Kenaikan Harga JBU Pertamax yang Memukul Kondisi Sosial-Ekonomi Kelas Menengah, Pelaku UMKM, dan Pekerja Sektor Informal Priangan Timur[cite: 310, 311].
+            <div class="glass-panel p-6 rounded-xl border border-red-950 bg-gradient-to-b from-red-950/20 to-black/90 shadow-2xl">
+                <div class="text-center max-w-3xl mx-auto mb-6">
+                    <span class="text-[10px] font-bold text-red-500 tracking-widest uppercase block mb-1">Manifes Gerakan Pergerakan</span>
+                    <h3 class="text-xl font-black text-white tracking-tight">PERNYATAAN SIKAP PC PMII KOTA TASIKMALAYA</h3>
+                    <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+                        Menyikapi kenaikan harga BBM non-subsidi jenis Pertamax yang berdampak terhadap kondisi sosial-ekonomi masyarakat, khususnya kelompok kelas menengah, pelaku UMKM, pekerja sektor informal, dan masyarakat pengguna kendaraan pribadi di Kota Tasikmalaya, serta mempertimbangkan potensi meningkatnya migrasi konsumsi ke BBM bersubsidi yang dapat mengancam ketahanan energi daerah, maka PC PMII Kota Tasikmalaya menyampaikan tuntutan sebagai berikut:
                     </p>
                 </div>
 
                 <div class="space-y-3 max-w-4xl mx-auto text-xs">
-                    <div class="bg-zinc-950/80 rounded-lg border border-zinc-900 overflow-hidden">
-                        <button onclick="toggleAccordion('acc-a')" class="w-full text-left p-4 font-bold text-red-400 hover:bg-zinc-900/60 flex justify-between items-center cursor-pointer">
-                            <span>A. TUNTUTAN TEGAS KEPADA PEMERINTAH REPUBLIK INDONESIA</span>
+                    <div class="bg-zinc-950/90 rounded-lg border border-zinc-900 overflow-hidden">
+                        <button onclick="toggleAccordion('acc-tuntutan-a')" class="w-full text-left p-4 font-bold text-red-400 hover:bg-zinc-900 flex justify-between items-center cursor-pointer">
+                            <span>A. TUNTUTAN KEPADA PEMERINTAH REPUBLIK INDONESIA</span>
                             <i class="fa-solid fa-chevron-down text-zinc-600"></i>
                         </button>
-                        <div id="acc-a" class="hidden p-4 border-t border-zinc-900 space-y-2 text-zinc-400 bg-black/40">
-                            <p><b>1.</b> Menolak secara mutlak segala bentuk opsi atau kebijakan yang berpotensi menaikkan harga jual eceran BBM bersubsidi (Pertalite & Solar) demi proteksi daya beli[cite: 313].</p>
-                            <p><b>2.</b> Mendesak Pemerintah RI mempercepat ketahanan energi melalui perluasan kapasitas pengolahan kilang minyak mentah domestik agar lepas dari ketergantungan impor impor neto hulu[cite: 314].</p>
-                            <p><b>3.</b> Menuntut evaluasi total formula batas atas mekanisme penetapan eceran agar tidak melepas harga komersial tunduk pada pasar global tanpa menimbang kapasitas ekonomi domestik[cite: 315].</p>
-                            <p><b>4.</b> Mendesak pengetatan berlapis pengawasan distribusi kuota bersubsidi di lapangan agar tepat sasaran dan terbebas dari serapan kaum pemodal besar[cite: 316].</p>
-                            <p><b>5.</b> Menuntut pemaparan transparansi data penerima kuota serta membuka lebar akses pengawasan publik langsung terhadap pelaksanaan program subsidi energi[cite: 317].</p>
-                            <p><b>6.</b> Mendesak pemerintah merancang instruksi skema perlindungan ekonomi taktis khusus bagi para pelaku UMKM, pekerja sektor informal, serta jejaring transportasi rakyat[cite: 318].</p>
+                        <div id="acc-tuntutan-a" class="hidden p-4 border-t border-zinc-900 space-y-2.5 text-zinc-400 bg-black/40">
+                            <p><b>1.</b> Menolak segala bentuk kebijakan yang berpotensi menaikkan harga BBM bersubsidi, khususnya Pertalite dan Solar Subsidi, demi menjaga daya beli masyarakat kecil serta stabilitas ekonomi nasional.</p>
+                            <p><b>2.</b> Mendesak Pemerintah Republik Indonesia untuk memperkuat ketahanan energi nasional melalui peningkatan kapasitas pengolahan minyak mentah dalam negeri sehingga ketergantungan terhadap impor BBM dapat dikurangi secara bertahap.</p>
+                            <p><b>3.</b> Mendesak pemerintah melakukan evaluasi menyeluruh terhadap mekanisme penetapan harga BBM agar tidak semata-mata mengikuti gejolak pasar global, tetapi juga mempertimbangkan kondisi sosial-ekonomi masyarakat Indonesia.</p>
+                            <p><b>4.</b> Menuntut pemerintah memperkuat pengawasan distribusi BBM bersubsidi agar tepat sasaran dan tidak dinikmati oleh kelompok masyarakat yang tidak berhak.</p>
+                            <p><b>5.</b> Mendesak pemerintah memperluas transparansi data penerima BBM subsidi serta membuka akses pengawasan publik terhadap pelaksanaan program subsidi energi.</p>
+                            <p><b>6.</b> Menuntut pemerintah menyiapkan skema perlindungan ekonomi bagi pelaku UMKM, pekerja informal, dan sektor transportasi rakyat yang terdampak akibat kenaikan harga BBM non-subsidi.</p>
                         </div>
                     </div>
 
-                    <div class="bg-zinc-950/80 rounded-lg border border-zinc-900 overflow-hidden">
-                        <button onclick="toggleAccordion('acc-b')" class="w-full text-left p-4 font-bold text-red-400 hover:bg-zinc-900/60 flex justify-between items-center cursor-pointer">
-                            <span>B. TUNTUTAN OPERASIONAL KEPADA PT PERTAMINA (PERSERO)</span>
+                    <div class="bg-zinc-950/90 rounded-lg border border-zinc-900 overflow-hidden">
+                        <button onclick="toggleAccordion('acc-tuntutan-b')" class="w-full text-left p-4 font-bold text-red-400 hover:bg-zinc-900 flex justify-between items-center cursor-pointer">
+                            <span>B. TUNTUTAN KEPADA PT PERTAMINA (PERSERO)</span>
                             <i class="fa-solid fa-chevron-down text-zinc-600"></i>
                         </button>
-                        <div id="acc-b" class="hidden p-4 border-t border-zinc-900 space-y-2 text-zinc-400 bg-black/40">
-                            <p><b>1.</b> Menjamin pemenuhan ketersediaan stok pasokan BBM baik subsidi maupun komersial secara berkesinambungan di seluruh regional Priangan Timur, khususnya Kota Tasikmalaya[cite: 320].</p>
-                            <p><b>2.</b> Memastikan kesiapan pasokan Pertalite di tangki-tangki retail guna mengantisipasi kelangkaan akibat terjadinya efek substitusi lonjakan konsumen pasca-kenaikan Pertamax[cite: 321].</p>
-                            <p><b>3.</b> Memperketat pengawasan nozzle distribusi via akselerasi digitalisasi sistem pengisian untuk mendeteksi dini penyalahgunaan di tingkat retail[cite: 322].</p>
-                            <p><b>4.</b> Membuka grafik transparansi informasi stok bahan bakar berkala kepada publik sebagai perwujudan akuntabilitas pelayanan energi[cite: 323].</p>
-                            <p><b>5.</b> Menindak tegas, menutup, dan memproses hukum gerai SPBU maupun mafia eksternal yang terbukti melakukan penimbunan, pengoplosan, atau penyelewengan barang subsidi rakyat[cite: 324].</p>
-                            <p><b>6.</b> Memastikan manajemen pelayanan pengisian berjalan optimal bebas dari antrean mengular panjang yang memicu keresahan mobilitas warga[cite: 325].</p>
+                        <div id="acc-tuntutan-b" class="hidden p-4 border-t border-zinc-900 space-y-2.5 text-zinc-400 bg-black/40">
+                            <p><b>1.</b> Menjamin ketersediaan stok BBM bersubsidi maupun non-subsidi secara berkelanjutan di seluruh wilayah Priangan Timur, khususnya Kota Tasikmalaya.</p>
+                            <p><b>2.</b> Memastikan tidak terjadi kelangkaan Pertalite akibat migrasi konsumen dari Pertamax ke Pertalite pasca kenaikan harga.</p>
+                            <p><b>3.</b> Memperketat sistem pengawasan distribusi BBM bersubsidi melalui digitalisasi, pengawasan lapangan, dan penindakan tegas terhadap seluruh bentuk penyalahgunaan BBM subsidi.</p>
+                            <p><b>4.</b> Membuka informasi stok dan distribusi BBM kepada masyarakat secara berkala sebagai bentuk transparansi pelayanan publik.</p>
+                            <p><b>5.</b> Menindak tegas SPBU maupun pihak-pihak yang terbukti melakukan penimbunan, pengoplosan, atau penyalahgunaan BBM bersubsidi.</p>
+                            <p><b>6.</b> Memastikan pelayanan distribusi BBM tetap berjalan optimal pada masa peningkatan permintaan sehingga tidak menimbulkan antrean panjang dan keresahan masyarakat.</p>
                         </div>
                     </div>
 
-                    <div class="bg-zinc-950/80 rounded-lg border border-zinc-900 overflow-hidden">
-                        <button onclick="toggleAccordion('acc-c')" class="w-full text-left p-4 font-bold text-red-400 hover:bg-zinc-900/60 flex justify-between items-center cursor-pointer">
+                    <div class="bg-zinc-950/90 rounded-lg border border-zinc-900 overflow-hidden">
+                        <button onclick="toggleAccordion('acc-tuntutan-c')" class="w-full text-left p-4 font-bold text-red-400 hover:bg-zinc-900 flex justify-between items-center cursor-pointer">
                             <span>C. TUNTUTAN KEPADA FUEL TERMINAL (DEPOT) PERTAMINA TASIKMALAYA</span>
                             <i class="fa-solid fa-chevron-down text-zinc-600"></i>
                         </button>
-                        <div id="acc-c" class="hidden p-4 border-t border-zinc-900 space-y-2 text-zinc-400 bg-black/40">
-                            <p><b>1.</b> Menjamin posisi ketahanan kuota tangki penyimpanan wilayah Priangan Timur konstan berada di atas ambang batas aman standardisasi energi nasional[cite: 327].</p>
-                            <p><b>2.</b> Memastikan ritme distribusi logistik armada truk tangki merah-putih ke seluruh SPBU berjalan lancar tanpa terkendala hambatan teknis[cite: 328].</p>
-                            <p><b>3.</b> Memperkuat pengawasan gerbang hilir depo guna menutup celah kebocoran tangki muatan sebelum disalurkan menuju pom bensin retail[cite: 329].</p>
-                            <p><b>4.</b> Melakukan sinergi koordinasi berkala taktis bersama Pemda, jajaran BPH Migas, serta aparat penegak hukum guna mengamankan stabilitas energi daerah[cite: 330].</p>
-                            <p><b>5.</b> Menyampaikan laporan berkala realisasi volume stok tangki cadangan harian terbuka sebagai bentuk transparansi layanan publik[cite: 331].</p>
-                            <p><b>6.</b> Mengoptimalkan fungsi utama FT Tasikmalaya bertindak sebagai <em class="text-zinc-300">buffer stock</em> energi strategis penyerap guncangan lonjakan kepanikan pasar[cite: 332].</p>
+                        <div id="acc-tuntutan-c" class="hidden p-4 border-t border-zinc-900 space-y-2.5 text-zinc-400 bg-black/40">
+                            <p><b>1.</b> Menjamin ketahanan stok BBM wilayah Priangan Timur tetap berada pada level aman sesuai standar ketahanan energi nasional.</p>
+                            <p><b>2.</b> Memastikan distribusi BBM ke seluruh SPBU berjalan lancar, tepat waktu, dan tidak mengalami hambatan logistik.</p>
+                            <p><b>3.</b> Memperkuat sistem monitoring distribusi BBM bersubsidi untuk mencegah kebocoran dan penyalahgunaan di tingkat SPBU.</p>
+                            <p><b>4.</b> Melakukan koordinasi berkala dengan pemerintah daerah, BPH Migas, dan aparat penegak hukum guna memastikan keamanan pasokan BBM di wilayah Tasikmalaya dan sekitarnya.</p>
+                            <p><b>5.</b> Menyampaikan laporan kondisi stok dan distribusi BBM secara terbuka kepada publik sebagai bentuk akuntabilitas pelayanan energi.</p>
+                            <p><b>6.</b> Mengoptimalkan fungsi Fuel Terminal Tasikmalaya sebagai pusat cadangan energi strategis untuk mengantisipasi lonjakan permintaan maupun potensi gangguan pasokan.</p>
                         </div>
                     </div>
                 </div>
 
-                <p class="text-[11px] text-center text-zinc-500 mt-6 italic">
-                    "PC PMII Kota Tasikmalaya menegaskan bahwa energi merupakan kebutuhan dasar masyarakat. Oleh karena itu, seluruh kebijakan terkait BBM harus berorientasi pada kepentingan rakyat, menjamin keadilan distribusi, menjaga daya beli masyarakat, serta memperkuat kedaulatan energi nasional." [cite: 333, 334]
+                <p class="text-[11px] text-center text-zinc-400 mt-6 font-medium italic border-t border-zinc-900 pt-4">
+                    "PC PMII Kota Tasikmalaya menegaskan bahwa energi merupakan kebutuhan dasar masyarakat. Oleh karena itu, seluruh kebijakan terkait BBM harus berorientasi pada kepentingan rakyat, menjamin keadilan distribusi, menjaga daya beli masyarakat, serta memperkuat kedaulatan energi nasional."
                 </p>
             </div>
         </section>
@@ -549,7 +694,7 @@
     </footer>
 
     <script>
-        // Tab Control Engine
+        // Tab Switcher Control Engine
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(b => {
@@ -577,7 +722,7 @@
             }
         }
 
-        // INTERACTIVE KANVAS ENGNE (MOUSE TRACKING & TOUCH GESTURE PARTICLES)
+        // ENGINE ANIMASI INTERAKTIF KANVAS MOUSE TRACKING & LAPTOP / GESTURE HP
         const canvas = document.getElementById('interactive-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -589,19 +734,19 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class SparkParticle {
+        class FlowParticle {
             constructor(x, y) {
                 this.x = x;
                 this.y = y;
                 this.size = Math.random() * 3.5 + 1;
-                this.speedX = Math.random() * 2.4 - 1.2;
-                this.speedY = Math.random() * -2 - 0.4; // Bergerak melayang ke atas perlahan agar relax
-                this.color = `rgba(239, 68, 68, ${Math.random() * 0.4 + 0.15})`; // Aura gradasi merah revolusi
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * -1.8 - 0.4; // Bergerak melayang ke atas lambat agar relax
+                this.color = `rgba(239, 68, 68, ${Math.random() * 0.35 + 0.15})`; // Aura plasma gradasi merah revolusi
             }
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                if (this.size > 0.1) this.size -= 0.03;
+                if (this.size > 0.1) this.size -= 0.025;
             }
             draw() {
                 ctx.beginPath();
@@ -615,13 +760,13 @@
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             
-            // Generate beberapa partikel plasma redup di titik interaksi kursor / jemari sentuh
+            // Injeksi partikel plasma lembut di posisi koordinat sentuhan/kursor
             for (let i = 0; i < 3; i++) {
-                particlesArray.push(new SparkParticle(clientX, clientY));
+                particlesArray.push(new FlowParticle(clientX, clientY));
             }
         }
 
-        // Aktifkan pemantau di Laptop (Mouse) dan HP (Sentuhan & Geser Layar)
+        // Jalankan listener mouse (Laptop) & touch gestures (HP)
         window.addEventListener('mousemove', triggerInteraction);
         window.addEventListener('touchmove', triggerInteraction, {passive: true});
 

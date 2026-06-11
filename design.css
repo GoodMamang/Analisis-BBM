@@ -1,0 +1,154 @@
+/* ==========================================================================
+   DESIGN SYSTEM - REVOLUSI GLASS RED-BLACK (PC PMII KOTA TASIKMALAYA)
+   ========================================================================== */
+
+/* Pengaturan Dasar & Custom Reset */
+body {
+    background-color: #040404;
+    color: #f3f4f6;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Kanvas Partikel Interaktif di Latar Belakang */
+#interactive-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 1. Komponen Header Fiksasi (Sticky di Atas) */
+header {
+    background: rgba(4, 4, 4, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(239, 68, 68, 0.12);
+}
+
+.header-logo {
+    filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.25));
+}
+
+.header-badge {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* Animasi Gradasi Warna Judul Utama */
+.animate-gradient-text {
+    background: linear-gradient(90deg, #ffffff, #e4e4e7, #ef4444, #b91c1c);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 2. Komponen Bar Navigasi Sistem Tombol */
+.main-nav {
+    background: rgba(12, 12, 12, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+}
+
+.tab-btn {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #ef4444;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Keadaan Tombol Navigasi Aktif (Active State) */
+.tab-btn.active {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #ffffff !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15);
+}
+
+.tab-btn.active::after {
+    width: 65%;
+}
+
+/* 3. Inti Desain Revolusi Glassmorphism */
+.glass-container {
+    background: rgba(12, 12, 12, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Arsitektur Teks Interaktif Bebas Penjara Kotak Tebal */
+.interactive-text {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 0.6rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+/* Efek Animasi Gradasi Warna & Geser Saat Disentuh (HP) / Disorot Kursor (Laptop) */
+.interactive-text:hover, 
+.interactive-text:active {
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.06) 0%, rgba(15, 15, 15, 0.2) 100%);
+    border-color: rgba(239, 68, 68, 0.15);
+    color: #ffffff;
+    transform: translateX(5px);
+    box-shadow: -4px 0 0 #ef4444;
+}
+
+/* 4. Pengaturan Komponen Tabel & Akordeon */
+table th {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+table tr {
+    transition: background 0.2s ease;
+}
+
+table tr:hover {
+    background: rgba(255, 255, 255, 0.01);
+}
+
+/* Animasi Rotasi Icon Akordeon */
+.fa-chevron-down {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 5. Garis Pembatas Watermark Footer */
+footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Animasi Fade-In saat Tab Diganti */
+.page-animation {
+    animation: fadeInView 0.5s ease-out;
+}
+
+@keyframes fadeInView {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}

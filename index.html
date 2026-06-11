@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Kenaikan BBM - PC PMII Kota Tasikmalaya 2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Urbanist:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Urbanist', sans-serif;
+            background-color: #0b0b0b;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        /* Particle Background Effect */
+        #particle-container {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(0, 0, 0, 0));
+            border-radius: 50%;
+            animation: floatAround 25s infinite linear;
+        }
+        @keyframes floatAround {
+            0% { transform: translateY(100vh) translateX(0px) scale(0.5); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) translateX(100px) scale(1.2); opacity: 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f0f0f; }
+        ::-webkit-scrollbar-thumb { background: #ef4444; border-radius: 3px; }
+        
+        /* Interactive Tab Active State */
+        .tab-btn.active {
+            background-color: #ef4444;
+            color: #000000;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+            border-color: #ef4444;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen pb-12">
+
+    <div id="particle-container"></div>
+
+    <header class="relative z-10 border-b border-red-900/40 bg-black/80 backdrop-blur-md py-6 px-4 mb-8 sticky top-0 shadow-lg shadow-red-950/20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgQQW6S_rJBjt8LnCRp_i3UUJLnTWfU8LgApydZ2idmn42EGenrKdNQSraFXQc1tAqHv1tyABZkGCYSWawGo5GZsVzi_eeJvB_mhl3ROES7ywWtxjfsqE9TwUbU83eRfVNCGYwfxL5nGca_q4a74-HYUp3HOXbXgcZIrZNWXBIM4pGYeieYaYg8p-eI" 
+                     alt="Logo PMII" class="h-20 w-auto object-contain drop-shadow-[0_0_10px_rgba(239, 68, 68, 0.3)]">
+                <div>
+                    <h1 class="text-2xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-white tracking-tight">
+                        ANALISIS KENAIKAN BBM
+                    </h1>
+                    <p class="text-sm md:text-base font-medium text-gray-400 mt-0.5">
+                        Hasil Kajian PC PMII Kota Tasikmalaya 2026
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 bg-red-950/30 border border-red-800/50 px-4 py-2 rounded-lg text-xs md:text-sm text-red-400">
+                <i class="fa-solid : font-bold fa-triangle-exclamation animate-pulse"></i>
+                <span class="font-semibold">Pembaruan Terakhir: Juni 2026</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-7xl mx-auto px-4">
+        
+        <nav class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-8 bg-zinc-950 p-2 rounded-xl border border-zinc-800/80">
+            <button onclick="switchTab('overview')" id="btn-overview" class="tab-btn active px-3 py-3 rounded-lg text-xs md:text-sm font-semibold tracking-wide border border-transparent transition-all duration-300 flex flex-col items-center justify-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-layer-group text-lg"></i> Overview & Regulasi
+            </button>
+            <button onclick="switchTab('strategis')" id="btn-strategis" class="tab-btn text-zinc-400 hover:text-white hover:bg-zinc-900 px-3 py-3 rounded-lg text-xs md:text-sm font-semibold tracking-wide border border-transparent transition-all duration-300 flex flex-col items-center justify-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-chess text-lg"></i> Analisis Strategis
+            </button>
+            <button onclick="switchTab('data-dampak')" id="btn-data-dampak" class="tab-btn text-zinc-400 hover:text-white hover:bg-zinc-900 px-3 py-3 rounded-lg text-xs md:text-sm font-semibold tracking-wide border border-transparent transition-all duration-300 flex flex-col items-center justify-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-chart-line text-lg"></i> Data & Dampak Sektoral
+            </button>
+            <button onclick="switchTab('lokal-depo')" id="btn-lokal-depo" class="tab-btn text-zinc-400 hover:text-white hover:bg-zinc-900 px-3 py-3 rounded-lg text-xs md:text-sm font-semibold tracking-wide border border-transparent transition-all duration-300 flex flex-col items-center justify-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-map-location-dot text-lg"></i> Dampak Lokal & Depo
+            </button>
+            <button onclick="switchTab('kasus-kritik')" id="btn-kasus-kritik" class="tab-btn text-zinc-400 hover:text-white hover:bg-zinc-900 px-3 py-3 rounded-lg text-xs md:text-sm font-semibold tracking-wide border border-transparent transition-all duration-300 flex flex-col items-center justify-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-scale-unbalanced text-lg"></i> Kasus & Kritik Fiskal
+            </button>
+            <button onclick="switchTab('pmii-tuntutan')" id="btn-pmii-tuntutan" class="tab-btn text-zinc-400 hover:text-white hover:bg-zinc-900 px-3 py-3 rounded-lg text-xs md:text-sm font-semibold tracking-wide border border-transparent transition-all duration-300 flex flex-col items-center justify-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-bullhorn text-lg"></i> Sikap & Tuntutan PMII
+            </button>
+        </nav>
+
+        <section id="tab-overview" class="tab-content block space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1 bg-gradient-to-br from-zinc-950 to-zinc-900 p-6 rounded-xl border border-zinc-800 shadow-md">
+                    <h3 class="text-xl font-bold text-red-500 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-gas-pump"></i> Definisi & Kategori BBM
+                    </h3>
+                    <p class="text-sm text-zinc-300 leading-relaxed mb-4">
+                        Bahan Bakar Minyak (BBM) merupakan komoditas strategis hasil olahan minyak bumi (bensin, solar, avtur, minyak tanah)[cite: 10]. Kenaikan harga merujuk pada lonjakan eceran akibat kebijakan fiskal pemerintah atau fluktuasi harga minyak mentah dunia, depresiasi rupiah, dan geopolitik global[cite: 15].
+                    </p>
+                    <div class="space-y-2.5">
+                        <div class="bg-black/50 p-3 rounded-lg border-l-4 border-red-600 text-xs">
+                            <strong class="text-red-400 block mb-0.5">BBM Bersubsidi (JBT):</strong> Solar dan Minyak Tanah. Harga ditetapkan di bawah pasar[cite: 12].
+                        </div>
+                        <div class="bg-black/50 p-3 rounded-lg border-l-4 border-amber-500 text-xs">
+                            <strong class="text-amber-400 block mb-0.5">BBM Khusus Penugasan (JBKP):</strong> Pertalite (RON 90) dengan skema kompensasi fiskal[cite: 13].
+                        </div>
+                        <div class="bg-black/50 p-3 rounded-lg border-l-4 border-zinc-600 text-xs">
+                            <strong class="text-zinc-400 block mb-0.5">BBM Non-Subsidi / Umum (JBU):</strong> Pertamax (RON 92), Pertamax Turbo (RON 98), Dexlite, Pertamina Dex. Mengikuti mekanisme pasar komersial[cite: 14, 350].
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-gradient-to-br from-zinc-950 to-zinc-900 p-6 rounded-xl border border-zinc-800 shadow-md">
+                    <h3 class="text-xl font-bold text-red-500 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-gavel"></i> Landasan Regulasi & Tata Kelola Fiskal
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs mb-4">
+                        <div class="bg-black/40 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-red-400 font-bold block mb-1">UUD 1945 Pasal 33 (2) & (3)</span>
+                            Cabang produksi penting dikuasai negara untuk kemakmuran rakyat[cite: 61, 62].
+                        </div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-red-400 font-bold block mb-1">UU No. 22 Tahun 2001 (Migas)</span>
+                            Harga berdasar persaingan sehat; Pemerintah memegang tanggung jawab sosial kelompok tertentu[cite: 63, 64].
+                        </div>
+                    </div>
+                    
+                    <div class="bg-zinc-900/80 p-4 rounded-xl border border-red-950/50">
+                        <span class="inline-block bg-red-950 text-red-400 border border-red-800 text-[10px] font-bold px-2 py-0.5 rounded mb-2">Fokus Utama</span>
+                        <h4 class="text-sm font-bold text-white mb-2">Kepmen ESDM No. 245.K/MG.01/MEM.M/2022 <span class="text-zinc-400 font-normal">(Formula JBU)</span></h4>
+                        <p class="text-xs text-zinc-400 leading-relaxed mb-3">
+                            Diterbitkan demi menjaga keadilan pasar, kepastian hukum, dan kesinambungan pasokan energi[cite: 336, 337]. Mengunci rumus baku batas atas/bawah agar badan usaha tidak menaikkan harga sepihak demi keuntungan berlebih[cite: 344, 345].
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
+                            <div class="bg-black/50 p-2 rounded border border-zinc-800">
+                                <i class="fa-solid fa-leaf text-green-500 mr-1"></i> <strong class="text-zinc-300">Penghapusan Premium:</strong> RON 88 resmi tidak berlaku per 1 Jan 2023 demi transisi energi bersih[cite: 340, 341].
+                            </div>
+                            <div class="bg-black/50 p-2 rounded border border-zinc-800">
+                                <i class="fa-solid fa-shield-halved text-blue-500 mr-1"></i> <strong class="text-zinc-300">Proteksi Bisnis:</strong> Memberi fleksibilitas berkala agar badan usaha terhindar dari kelangkaan stok akibat rugi impor[cite: 347, 348].
+                            </div>
+                            <div class="bg-black/50 p-2 rounded border border-zinc-800">
+                                <i class="fa-solid fa-calculator text-amber-500 mr-1"></i> <strong class="text-zinc-300">Pemisahan Dana:</strong> Memutus kaitan komersial dengan APBN subsidi rakyat[cite: 350].
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800 shadow-md">
+                <h3 class="text-xl font-bold text-red-500 mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-timeline"></i> Garis Waktu & Kronologi Dinamika Subsidi Energi
+                </h3>
+                <div class="relative border-l-2 border-red-900/60 ml-4 space-y-6 text-xs">
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[7px] top-1 w-3 height-3 rounded-full bg-red-600 shadow-[0_0_8px_#ef4444]"></div>
+                        <span class="text-red-400 font-bold text-sm block">1945 – 1970-an</span>
+                        <p class="text-zinc-400">Harga BBM dikendalikan penuh oleh negara dengan Pertamina sebagai satu-satunya distributor utama nasional[cite: 19].</p>
+                    </div>
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[7px] top-1 w-3 height-3 rounded-full bg-zinc-700"></div>
+                        <span class="text-zinc-400 font-bold text-sm block">1998</span>
+                        <p class="text-zinc-500">Krisis moneter hebat memaksa reformasi tata kelola energi. IMF mensyaratkan pengurangan subsidi BBM sebagai prasyarat pinjaman[cite: 19].</p>
+                    </div>
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[7px] top-1 w-3 height-3 rounded-full bg-zinc-700"></div>
+                        <span class="text-zinc-400 font-bold text-sm block">Maret & Oktober 2005</span>
+                        <p class="text-zinc-500">Maret terjadi kenaikan bensin 32,6% & solar 27,3% yang memicu inflasi[cite: 19]. Oktober (Era SBY) bensin melonjak dari Rp2.400 ke Rp4.500/liter[cite: 19].</p>
+                    </div>
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[7px] top-1 w-3 height-3 rounded-full bg-zinc-700"></div>
+                        <span class="text-zinc-400 font-bold text-sm block">2008 – 2013</span>
+                        <p class="text-zinc-500">2008 terjadi penyesuaian naik-turun ekstrem akibat harga minyak dunia menyentuh USD 147/barel[cite: 19]. 2012–2013 beban fiskal memuncak hingga Rp240 triliun akibat didominasi golongan mampu[cite: 19].</p>
+                    </div>
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[7px] top-1 w-3 height-3 rounded-full bg-zinc-700"></div>
+                        <span class="text-zinc-400 font-bold text-sm block">November 2014 & September 2022</span>
+                        <p class="text-zinc-500">2014 Presiden Jokowi menghapus Premium menuju harga keekonomian[cite: 19]. September 2022 bensin subsidi Pertalite dinaikkan tajam dari Rp7.650 menjadi Rp10.000/liter[cite: 19, 74].</p>
+                    </div>
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[7px] top-1 w-3 height-3 rounded-full bg-red-600 shadow-[0_0_8px_#ef4444]"></div>
+                        <span class="text-red-400 font-bold text-sm block">April – Juni 2026 (Kondisi Terkini)</span>
+                        <p class="text-zinc-300">PT Pertamina Patra Niaga resmi menaikkan tajam harga BBM non-subsidi komersial (48–66%) akibat eskalasi konflik militer AS-Iran di Selat Hormuz[cite: 19, 29, 30]. Di sisi lain, Presiden Prabowo Subianto menjamin harga Pertalite/Solar tetap hingga akhir 2026 dengan menyuntik tambahan APBN Rp90–100 triliun[cite: 32].</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800 text-xs">
+                <span class="text-zinc-400 font-bold block mb-2"><i class="fa-solid : font-bold fa-scroll text-red-500 mr-1"></i> Regulasi Pelengkap & Komitmen Internasional</span>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-zinc-500">
+                    <div><strong class="text-zinc-400">Perpres No. 191/2014 & 43/2018:</strong> Regulasi induk penentuan konsumen dan kriteria penerima hak atas BBM bersubsidi[cite: 67].</div>
+                    <div><strong class="text-zinc-400">KEN & RUEN (Perpres 22/2017):</strong> Target bauran energi terbarukan (EBT) sebesar 23% pada 2025 dan 31% pada 2050[cite: 69].</div>
+                    <div><strong class="text-zinc-400">Perjanjian Paris (2015):</strong> Komitmen mutlak Indonesia memangkas emisi gas rumah kaca sebesar 29–41% pada 2030[cite: 70].</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-strategis" class="tab-content hidden space-y-6">
+            <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800">
+                <h3 class="text-xl font-bold text-red-500 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-brain"></i> Landasan Teoretis Sektor Energi
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                    <div class="bg-black/40 p-4 rounded-lg border border-zinc-800">
+                        <strong class="text-red-400 block mb-1">Teori Keseimbangan Pasar (Neoklasik)</strong>
+                        Subsidi harga menciptakan kelebihan permintaan (<em class="text-zinc-400">excess demand</em>) yang memicu kelangkaan, kebocoran distribusi, dan ketidaktersediaan barang di pasar[cite: 37].
+                    </div>
+                    <div class="bg-black/40 p-4 rounded-lg border border-zinc-800">
+                        <strong class="text-red-400 block mb-1">Cost-Push Inflation (Inflasi Sisi Biaya)</strong>
+                        Energi bertindak sebagai input utama. Kenaikan harga BBM langsung mengerek ongkos produksi lintas sektor (manufaktur, pertanian, logistik)[cite: 39, 40].
+                    </div>
+                    <div class="bg-black/40 p-4 rounded-lg border border-zinc-800">
+                        <strong class="text-red-400 block mb-1">Kegagalan Pasar & Regresivitas</strong>
+                        Stiglitz (2012) & IMF membuktikan subsidi harga bersifat regresif. Data empiris menunjukkan lebih dari 70% subsidi dinikmati oleh kelas kaya pemilik kendaraan pribadi[cite: 44, 45, 209].
+                    </div>
+                    <div class="bg-black/40 p-4 rounded-lg border border-zinc-800">
+                        <strong class="text-red-400 block mb-1">Teori Ketergantungan & Paradoks Energi</strong>
+                        Konsumsi BBM nasional mencapai 1,6 juta barel/hari, sedangkan kapasitas produksi hulu dalam negeri merosot di level 600.000–610.000 barel/hari. Menciptakan jurang impor >1 juta barel/hari[cite: 50, 79].
+                    </div>
+                    <div class="bg-black/40 p-4 rounded-lg border border-zinc-800">
+                        <strong class="text-red-400 block mb-1">Targeted Cash Transfer</strong>
+                        Model Bantuan Langsung Tunai (BLT) dan Bantuan Subsidi Upah (BSU) disarankan Bank Dunia sebagai instrumen perlindungan daya beli bagi kelompok rentan pasca-guncangan[cite: 48, 108].
+                    </div>
+                    <div class="bg-black/40 p-4 rounded-lg border border-zinc-800">
+                        <strong class="text-red-400 block mb-1">Pandangan Para Ahli Kebijakan</strong>
+                        <ul class="list-disc list-inside space-y-1 text-zinc-400">
+                            <li><em class="text-zinc-300">Faisal Basri:</em> Fiskal salah kaprah puluhan tahun[cite: 52].</li>
+                            <li><em class="text-zinc-300">Sri Mulyani:</em> Subsidi harga menguras dana investasi publik[cite: 54].</li>
+                            <li><em class="text-zinc-300">Teuku Riefky:</em> Inflasi menjalar hingga 2-3 kuartal[cite: 56].</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800">
+                <h3 class="text-xl font-bold text-red-500 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-pie"></i> Pemetaan Matriks S.W.O.T. Pengelolaan Energi
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-zinc-900/60 p-4 rounded-lg border-t-4 border-emerald-600">
+                        <span class="text-emerald-400 font-bold text-sm block mb-2"><i class="fa-solid : font-bold fa-shield"></i> STRENGTHS (Kekuatan)</span>
+                        <ul class="list-disc list-inside space-y-1 text-zinc-400">
+                            <li>Cadangan fiskal tebal (Tambahan Rp90-100T di APBN 2026)[cite: 76, 136].</li>
+                            <li>Skalabilitas rantai nilai Pertamina menguasai distribusi nasional[cite: 137].</li>
+                            <li>Basis pasar energi domestik masif (>280 juta jiwa populasi)[cite: 138].</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-900/60 p-4 rounded-lg border-t-4 border-red-600">
+                        <span class="text-red-400 font-bold text-sm block mb-2"><i class="fa-solid : font-bold fa-heart-crack"></i> WEAKNESSES (Kelemahan)</span>
+                        <ul class="list-disc list-inside space-y-1 text-zinc-400">
+                            <li>Produksi minyak jatuh, domestik hanya mencukupi 38% konsumsi[cite: 141].</li>
+                            <li>Kapasitas infrastruktur kilang pengolahan dalam negeri terbatas[cite: 142].</li>
+                            <li>Disparitas harga riil mencolok antara Jawa-Bali dengan wilayah 3T[cite: 143].</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-900/60 p-4 rounded-lg border-t-4 border-blue-600">
+                        <span class="text-blue-400 font-bold text-sm block mb-2"><i class="fa-solid : font-bold fa-lightbulb"></i> OPPORTUNITIES (Peluang)</span>
+                        <ul class="list-disc list-inside space-y-1 text-zinc-400">
+                            <li>Transformasi skema subsidi berbasis data Nomor Induk Kependudukan (NIK)[cite: 147].</li>
+                            <li>Akselerasi adopsi Kendaraan Listrik (EV) & digitalisasi QR MyPertamina[cite: 146, 149].</li>
+                            <li>Potensi kekayaan Energi Terbarukan (EBT) lokal yang melimpah[cite: 148].</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-900/60 p-4 rounded-lg border-t-4 border-amber-600">
+                        <span class="text-amber-400 font-bold text-sm block mb-2"><i class="fa-solid : font-bold fa-bolt"></i> THREATS (Ancaman)</span>
+                        <ul class="list-disc list-inside space-y-1 text-zinc-400">
+                            <li>Gejolak geopolitik global (Sengketa AS-Iran di Selat Hormuz)[cite: 30, 152].</li>
+                            <li>Pelemahan nilai tukar rupiah mendongkrak biaya impor minyak[cite: 153].</li>
+                            <li>Resistensi sosial-politik & risiko stagflasi makro[cite: 154, 155].</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs">
+                <div class="bg-zinc-950 p-5 rounded-xl border border-zinc-800">
+                    <h4 class="text-base font-bold text-red-500 mb-3"><i class="fa-solid : font-bold fa-circle-exclamation"></i> 5 Identifikasi Masalah Utama (M1 - M5)</h4>
+                    <div class="space-y-2 text-zinc-400">
+                        <div class="p-2 bg-black/40 rounded"><strong class="text-zinc-200">M1: Subsidi Salah Sasaran</strong> &gt;70% diserap masyarakat kelas atas pemilik aset mobil pribadi[cite: 129].</div>
+                        <div class="p-2 bg-black/40 rounded"><strong class="text-zinc-200">M2: Kerentanan Impor Tinggi</strong> Defisit pasokan membuat ketahanan nasional ringkih gejolak pasar global[cite: 130].</div>
+                        <div class="p-2 bg-black/40 rounded"><strong class="text-zinc-200">M3: Defisit Fiskal APBN</strong> Anggaran energi hingga Rp500T memangkas jatah modal pendidikan/kesehatan[cite: 131].</div>
+                        <div class="p-2 bg-black/40 rounded"><strong class="text-zinc-200">M4: Transmisi Inflasi Instan</strong> Distribusi logistik nasional bergantung mutlak pada armada transportasi darat[cite: 132].</div>
+                        <div class="p-2 bg-black/40 rounded"><strong class="text-zinc-200">M5: Kesenjangan Wilayah 3T</strong> Beban tambahan biaya logistik menciptakan pasar gelap eceran ilegal[cite: 133].</div>
+                    </div>
+                </div>
+                <div class="bg-zinc-950 p-5 rounded-xl border border-zinc-800">
+                    <h4 class="text-base font-bold text-red-500 mb-3"><i class="fa-solid : font-bold fa-globe"></i> Kerangka Matriks PESTEL</h4>
+                    <div class="grid grid-cols-2 gap-2 text-[11px] text-zinc-400">
+                        <div class="p-2 bg-zinc-900/60 rounded"><strong>POLITIK:</strong> Instrumen patronase elektoral; Pilihan Prabowo demi stabilitas sosial[cite: 161, 162].</div>
+                        <div class="p-2 bg-zinc-900/60 rounded"><strong>EKONOMI:</strong> Menekan daya saing ekspor produk manufaktur akibat lonjakan biaya daya[cite: 168].</div>
+                        <div class="p-2 bg-zinc-900/60 rounded"><strong>SOSIAL:</strong> Nelayan, pengemudi ojek daring, dan UMKM mengalami kompresi keuntungan[cite: 171, 172].</div>
+                        <div class="p-2 bg-zinc-900/60 rounded"><strong>TEKNOLOGI:</strong> Digitalisasi sistem MyPertamina menutup celah kebocoran[cite: 176].</div>
+                        <div class="p-2 bg-zinc-900/60 rounded"><strong>LINGKUNGAN:</strong> Harga murah palsu memperlambat laju transisi energi bersih Indonesia[cite: 178].</div>
+                        <div class="p-2 bg-zinc-900/60 rounded"><strong>HUKUM:</strong> Kewajiban regulasi mengelola hak hajat hidup berdasar amanat UU Migas[cite: 182].</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-data-dampak" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800">
+                    <h3 class="text-xl font-bold text-red-500 mb-4">
+                        <i class="fa-solid : font-bold fa-chart-simple"></i> Visualisasi Lonjakan Harga JBU (April 2026)
+                    </h3>
+                    <p class="text-xs text-zinc-400 mb-4">Mekanisme pasar komersial akibat krisis Selat Hormuz memicu kenaikan drastif 48-66% pada BBM non-subsidi Pertamina[cite: 19, 29, 30].</p>
+                    
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <div class="flex justify-between text-zinc-300 mb-1">
+                                <span>Pertamax Turbo (RON 98) <strong class="text-red-500">+48%</strong></span>
+                                <span>Rp13.100 &rarr; <strong class="text-white text-sm">Rp19.400</strong></span>
+                            </div>
+                            <div class="w-full bg-zinc-900 rounded-full h-3 overflow-hidden border border-zinc-800">
+                                <div class="bg-gradient-to-r from-red-800 to-red-500 h-full rounded-full" style="width: 74%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-zinc-300 mb-1">
+                                <span>Dexlite <strong class="text-red-500">+66%</strong></span>
+                                <span>Rp14.200 &rarr; <strong class="text-white text-sm">Rp23.600</strong></span>
+                            </div>
+                            <div class="w-full bg-zinc-900 rounded-full h-3 overflow-hidden border border-zinc-800">
+                                <div class="bg-gradient-to-r from-red-800 to-red-500 h-full rounded-full" style="width: 98%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-zinc-300 mb-1">
+                                <span>Pertamina Dex <strong class="text-red-500">+65%</strong></span>
+                                <span>Rp14.500 &rarr; <strong class="text-white text-sm">Rp23.900</strong></span>
+                            </div>
+                            <div class="w-full bg-zinc-900 rounded-full h-3 overflow-hidden border border-zinc-800">
+                                <div class="bg-gradient-to-r from-red-800 to-red-500 h-full rounded-full" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-2 bg-black/50 text-[11px] text-zinc-500 rounded border border-zinc-900">
+                        * Catatan: Harga Pertalite (Rp10.000) & Solar Subsidi (Rp6.800) dikunci tetap stabil hingga akhir tahun 2026 oleh komitmen anggaran kabinet[cite: 32, 74].
+                    </div>
+                </div>
+
+                <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-red-500 mb-2">
+                            <i class="fa-solid fa-money-bill-trend-up"></i> Eskalasi Anggaran Energi di APBN
+                        </h3>
+                        <p class="text-xs text-zinc-400 mb-4">Tren alokasi dana subsidi & kompensasi energi dari tahun ke tahun[cite: 76].</p>
+                        
+                        <div class="space-y-2 text-xs">
+                            <div class="flex items-center justify-between p-2 bg-black/30 rounded border-l-2 border-zinc-700">
+                                <span>2021 (Pemulihan Pandemi)</span> <strong class="text-zinc-400">Rp140,21 T</strong>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-black/30 rounded border-l-2 border-red-600">
+                                <span>2022 (Rusia-Ukraina Shock)</span> <strong class="text-red-400">Rp502,4 T (Lonjak 3x)</strong>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-black/30 rounded border-l-2 border-zinc-700">
+                                <span>2023 (Realisasi Pasca-Reformasi)</span> <strong class="text-zinc-400">Rp269,6 T</strong>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-black/30 rounded border-l-2 border-zinc-700">
+                                <span>2024 (Pagu ICP)</span> <strong class="text-zinc-400">Rp329,9 T</strong>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-zinc-900/80 rounded border-l-2 border-amber-500">
+                                <span>2025 (Kebutuhan Berjalan)</span> <strong class="text-amber-400">Rp394 T</strong>
+                            </div>
+                            <div class="flex items-center justify-between p-2 bg-red-950/40 rounded border border-red-800/60">
+                                <span class="font-bold text-red-400">2026 (Suntikan Krisis Baru)</span> <strong class="text-white">Tambahan +Rp90-100 T</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-xs">
+                <div class="lg:col-span-2 bg-zinc-950 p-5 rounded-xl border border-zinc-800">
+                    <h4 class="text-base font-bold text-red-500 mb-3"><i class="fa-solid fa-briefcase"></i> Transmisi Dampak pada Sektor Dunia Usaha</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <span class="text-white font-bold block mb-1"><i class="fa-solid : font-bold fa-truck text-red-500 mr-1"></i> Logistik & Transportasi</span>
+                            Kenaikan harga langsung ditransmisikan ke tarif angkutan, memicu efek domino pada rantai pasok logistik harian nasional[cite: 116].
+                        </div>
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <span class="text-white font-bold block mb-1"><i class="fa-solid : font-bold fa-industry text-red-500 mr-1"></i> Sektor Manufaktur</span>
+                            Bahan bakar bertindak sebagai komponen energi vital. Ongkos operasional membengkak memicu <em class="text-zinc-400">cost-push inflation</em> produk jadi[cite: 117, 118].
+                        </div>
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <span class="text-white font-bold block mb-1"><i class="fa-solid : font-bold fa-wheat-awn text-red-500 mr-1"></i> Sektor Pertanian & Perikanan</span>
+                            Mengerek ongkos mesin pompanisasi, solar armada kapal nelayan, dan distribusi panen ke pasar induk pedagang[cite: 119, 171].
+                        </div>
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <span class="text-white font-bold block mb-1"><i class="fa-solid : font-bold fa-store text-red-500 mr-1"></i> Kluster Pelaku UMKM</span>
+                            Pedagang keliling dan logistik retail kecil mengalami penurunan margin untung bersih akibat keterbatasan menyerap guncangan modal[cite: 120, 386].
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-950 p-5 rounded-xl border border-zinc-800">
+                    <h4 class="text-base font-bold text-red-500 mb-3"><i class="fa-solid fa-earth-americas"></i> Komparasi Harga Global (USD/Liter)</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between p-1.5 bg-zinc-900/80 rounded"><span>Malaysia (Subsidi RON95) [cite: 104]</span><strong>0,47</strong></div>
+                        <div class="flex justify-between p-1.5 bg-red-950/40 rounded text-red-400 font-bold"><span>Indonesia (Besar) [cite: 104]</span><strong>0,56</strong></div>
+                        <div class="flex justify-between p-1.5 bg-zinc-900/40 rounded text-zinc-500"><span>Filipina (Pasar) [cite: 104]</span><strong>1,05</strong></div>
+                        <div class="flex justify-between p-1.5 bg-zinc-900/40 rounded text-zinc-500"><span>Thailand (Pasar Parsial) [cite: 104]</span><strong>1,10</strong></div>
+                        <div class="flex justify-between p-1.5 bg-zinc-900/40 rounded text-zinc-500"><span>India (Parsial) [cite: 104]</span><strong>1,15</strong></div>
+                        <div class="flex justify-between p-1.5 bg-zinc-900/40 rounded text-zinc-500"><span>Jerman (Pajak Karbon) [cite: 104]</span><strong>1,90</strong></div>
+                        <div class="flex justify-between p-1.5 bg-zinc-900/40 rounded text-zinc-500"><span>Singapura (Pajak Tinggi) [cite: 104]</span><strong>2,10</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-lokal-depo" class="tab-content hidden space-y-6">
+            <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-zinc-800 pb-4 mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-red-500 flex items-center gap-2">
+                            <i class="fa-solid fa-warehouse"></i> Profil Teknis Fuel Terminal (FT) Tasikmalaya
+                        </h3>
+                        <p class="text-xs text-zinc-400 mt-0.5">Jantung penggerak dan pusat kendali rantai distribusi energi wilayah Priangan Timur[cite: 397].</p>
+                    </div>
+                    <div class="bg-black border border-zinc-800 px-3 py-1.5 rounded-lg text-xs font-semibold text-zinc-400 mt-2 md:mt-0">
+                        Sistem Penyaluran: <span class="text-white">Pipa Bawah Tanah Balongan/Cilacap [cite: 419]</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs mb-6">
+                    <div class="p-3 bg-zinc-900/60 rounded border border-zinc-800">
+                        <span class="text-red-400 font-bold block mb-1"><i class="fa-solid : font-bold fa-database"></i> Storage (Penyimpanan)</span>
+                        Tangki raksasa penampung jutaan liter Pertalite, Pertamax, Solar, dan Dex untuk mengamankan stok wilayah[cite: 399].
+                    </div>
+                    <div class="p-3 bg-zinc-900/60 rounded border border-zinc-800">
+                        <span class="text-red-400 font-bold block mb-1"><i class="fa-solid : font-bold fa-truck-ramp-box"></i> Distribution Hub</span>
+                        Memotong jalur logistik kapal tanker, mengisi armada truk tangki merah-putih menuju ratusan SPBU lokal[cite: 403, 405].
+                    </div>
+                    <div class="p-3 bg-zinc-900/60 rounded border border-zinc-800">
+                        <span class="text-red-400 font-bold block mb-1"><i class="fa-solid : font-bold fa-flask"></i> Quality Control</span>
+                        Uji laboratorium ketat guna memastikan tingkat oktan (RON) dan kebersihan muatan dari air/kotoran[cite: 407, 408].
+                    </div>
+                    <div class="p-3 bg-zinc-900/60 rounded border border-zinc-800">
+                        <span class="text-red-400 font-bold block mb-1"><i class="fa-solid : font-bold fa-kit-medical"></i> Buffer Stock Darurat</span>
+                        Mempercepat operasi distribusi hingga 24 jam non-stop saat puncak mudik atau kepanikan harga pasar[cite: 410].
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-black/60 p-4 rounded-xl border border-zinc-800">
+                        <span class="text-xs text-zinc-400 block mb-1">Volume Penyaluran Normal Harian</span>
+                        <strong class="text-2xl font-bold text-white tracking-tight">1.100 - 1.500 <span class="text-sm font-normal text-zinc-400">KL / Hari</span></strong>
+                        <p class="text-[10px] text-zinc-500 mt-1">Rata-rata berada di angka ±1.200 Kiloliter pada kondisi normal[cite: 411, 415].</p>
+                    </div>
+                    <div class="bg-black/60 p-4 rounded-xl border border-zinc-800">
+                        <span class="text-xs text-zinc-400 block mb-1">Daya Tahan Cadangan Stok</span>
+                        <strong class="text-2xl font-bold text-red-500 tracking-tight">11 - 14 <span class="text-sm font-normal text-zinc-400">Hari</span></strong>
+                        <p class="text-[10px] text-zinc-500 mt-1">Mampu memasok SPBU Priangan Timur hampir 2 minggu tanpa kiriman baru[cite: 412, 417].</p>
+                    </div>
+                    <div class="bg-black/60 p-4 rounded-xl border border-zinc-800">
+                        <span class="text-xs text-zinc-400 block mb-1">Lonjakan Peak Season (Maksimal)</span>
+                        <strong class="text-2xl font-bold text-white tracking-tight">1.552 <span class="text-sm font-normal text-zinc-400">KL / Hari</span></strong>
+                        <p class="text-[10px] text-zinc-500 mt-1">Melonjak hingga 87% di atas kuota normal saat mudik Lebaran / Nataru[cite: 416].</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-red-950/20 border border-red-900/40 rounded-lg text-xs text-zinc-300 flex items-center gap-3">
+                    <i class="fa-solid fa-microchip text-red-500 text-lg"></i>
+                    <div>
+                        <strong>Otomatisasi Digital & Jaminan Jaringan Proaktif:</strong> Monitoring stok menggunakan sensor terotomatisasi bersama BPH Migas. Jika sisa cadangan SPBU terdeteksi di bawah 2 hari, depo menjadwalkan pengiriman truk baru secara otomatis tanpa menunggu bensin habis[cite: 421, 422].
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800">
+                <h3 class="text-xl font-bold text-red-500 mb-2 flex items-center gap-2">
+                    <i class="fa-solid : font-bold fa-city"></i> Realitas Dampak Lapangan di Pusat Perdagangan Tasikmalaya
+                </h3>
+                <p class="text-xs text-zinc-400 mb-6">Kenaikan harga Pertamax menjadi Rp16.250/liter memukul daya beli kelas menengah dan perputaran uang lokal[cite: 423].</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                    <div class="p-4 bg-zinc-900/40 rounded-xl border border-zinc-800 flex gap-3">
+                        <div class="text-red-500 text-xl"><i class="fa-solid : font-bold fa-mug-saucer"></i></div>
+                        <div>
+                            <strong class="text-white block mb-1">Melandainya Sentra Kuliner Malam</strong>
+                            Aktivitas <em class="text-zinc-400">nongkrong</em> mahasiswa dan pekerja muda di kedai kopi sepanjang Jl. HZ. Mustofa, Perintis Kemerdekaan, dan Dadaha menurun drastis demi menghemat BBM[cite: 426, 427, 428].
+                        </div>
+                    </div>
+                    <div class="p-4 bg-zinc-900/40 rounded-xl border border-zinc-800 flex gap-3">
+                        <div class="text-red-500 text-xl"><i class="fa-solid : font-bold fa-shirt"></i></div>
+                        <div>
+                            <strong class="text-white block mb-1">Penurunan Omzet Batik & Kelom Geulis</strong>
+                            Arus pelancong luar kota (Bandung/Jakarta) yang biasa memborong produk kreatif kerajinan di Batik Sukaraja atau Tamansari menyusut akibat lonjakan ongkos perjalanan[cite: 430, 431].
+                        </div>
+                    </div>
+                    <div class="p-4 bg-zinc-900/40 rounded-xl border border-zinc-800 flex gap-3">
+                        <div class="text-red-500 text-xl"><i class="fa-solid : font-bold fa-cart-shopping"></i></div>
+                        <div>
+                            <strong class="text-white block mb-1">Lesunya Kunjungan Ritel Modern</strong>
+                            Tingkat transaksi non-primer (pakaian, sepatu, kosmetik) di mal besar seperti Asia Plaza dan Mayasari Plaza anjlok; keuangan difokuskan ke sembako Pasar Cikurubuk[cite: 433, 434].
+                        </div>
+                    </div>
+                    <div class="p-4 bg-zinc-900/40 rounded-xl border border-zinc-800 flex gap-3">
+                        <div class="text-red-500 text-xl"><i class="fa-solid : font-bold fa-tags"></i></div>
+                        <div>
+                            <strong class="text-white block mb-1">Migrasi Belanja ke Toko Grosir Lokal</strong>
+                            Ibu rumah tangga bergeser dari minimarket waralaba ke toko kelontong/grosir murah lokal demi mengejar selisih harga ratusan rupiah guna menutupi bensin motor[cite: 435, 436, 437].
+                        </div>
+                    </div>
+                    <div class="p-4 bg-zinc-900/40 rounded-xl border border-zinc-800 flex gap-3">
+                        <div class="text-red-500 text-xl"><i class="fa-solid : font-bold fa-mobile-screen-button"></i></div>
+                        <div>
+                            <strong class="text-white block mb-1">Penundaan Pembaruan Gadget Kompleks HZ</strong>
+                            Gerai elektronik dan gawai di pusat bisnis HZ Mustofa melaporkan penurunan transaksi tunai/kredit; warga memilih merawat gawai lama hingga kondisi keuangan stabil[cite: 438, 439, 440].
+                        </div>
+                    </div>
+                    <div class="p-4 bg-red-950/20 rounded-xl border border-red-900/50 flex gap-3">
+                        <div class="text-red-400 text-xl"><i class="fa-solid : font-bold fa-arrows-spin"></i></div>
+                        <div>
+                            <strong class="text-red-400 block mb-1">Fenomena Sosial "The Squeezed Middle"</strong>
+                            Masyarakat kelas menengah terjepit: tidak menerima jaring bansos pemerintah, namun menjadi konsumen utama Pertamax yang terpaksa menanggung beban hidup baru[cite: 369, 370].
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-kasus-kritik" class="tab-content hidden space-y-6">
+            <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800">
+                <h3 class="text-xl font-bold text-red-500 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-code-compare"></i> Analisis Kasus Internasional & Domestik
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <div class="p-4 bg-zinc-900/50 rounded-lg border-l-4 border-red-600">
+                        <span class="text-white font-bold block mb-1">Iran (2019)</span>
+                        Kenaikan mendadak +200% tanpa kompensasi sosial matang berujung kerusuhan massal berdarah di jalanan[cite: 200, 205].
+                    </div>
+                    <div class="p-4 bg-zinc-900/50 rounded-lg border-l-4 border-emerald-600">
+                        <span class="text-white font-bold block mb-1">Malaysia (2024)</span>
+                        Pengurangan bertahap gradual menggunakan kartu MyKad terintegrasi; hanya menyasar kluster rentan B40[cite: 202, 203, 205].
+                    </div>
+                    <div class="p-4 bg-zinc-900/50 rounded-lg border-l-4 border-blue-600">
+                        <span class="text-white font-bold block mb-1">Nigeria (2023)</span>
+                        Penghapusan subsidi ekstrem kilat, sempat menyakitkan di awal namun sukses dialihkan ke aset infrastruktur[cite: 201, 205].
+                    </div>
+                    <div class="p-4 bg-zinc-900/50 rounded-lg border-l-4 border-amber-500">
+                        <span class="text-white font-bold block mb-1">Indonesia (Sept 2022)</span>
+                        Kenaikan terencana ±30% diimbangi BLT & BSU, memicu lonjakan administered prices 13,28% dan IHK 5,95%[cite: 41, 194, 195, 205].
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800">
+                <h3 class="text-xl font-bold text-red-500 mb-4">
+                    <i class="fa-solid fa-shuffle"></i> Ekses Sosial & Efek Substitusi Pasar
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-zinc-400">
+                    <div class="space-y-3">
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <strong class="text-white block mb-1"><i class="fa-solid fa-clock-rotate-left text-red-500 mr-1"></i> Antrean Panjang Jalur Pertalite</strong>
+                            Konsumen Pertamax bermigrasi massal ke Pertalite memicu antrean mengular, kemacetan lalu lintas, dan kelelahan operasional petugas SPBU[cite: 366, 368, 373].
+                        </div>
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <strong class="text-white block mb-1"><i class="fa-solid : font-bold fa-comments text-red-500 mr-1"></i> Gesekan Sosial Komunitas SPBU</strong>
+                            Ketimpangan antrean laju kendaraan antara lajur subsidi yang sesak padat vs lajur komersial yang lengang memicu adu mulut pengendara[cite: 374].
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <strong class="text-white block mb-1"><i class="fa-solid : font-bold fa-mask text-red-500 mr-1"></i> Risiko Penimbunan Black Market</strong>
+                            Disparitas harga yang melebar jauh (Pertalite Rp10.000 vs Pertamax Rp16.250) memperbesar celah pidana penimbunan dan oplosan eceran ilegal[cite: 376].
+                        </div>
+                        <div class="p-3 bg-black/40 rounded border border-zinc-900">
+                            <strong class="text-white block mb-1"><i class="fa-solid : font-bold fa-face-frown text-red-500 mr-1"></i> Ansietas Sosial Berkelanjutan</strong>
+                            Munculnya <em class="text-zinc-300">social anxiety</em> kolektif di masyarakat terkait potensi kenaikan tarif angkutan informal dan spekulasi harga bahan pokok[cite: 378].
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-zinc-950 p-5 rounded-xl border border-zinc-800 text-xs">
+                <h4 class="text-sm font-bold text-white mb-3 text-center">Debat Kontroversi Filsafat Kebijakan Fiskal</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-3 bg-emerald-950/20 border border-emerald-900/40 rounded">
+                        <strong class="text-emerald-400 block mb-1"><i class="fa-solid : font-bold fa-thumbs-up"></i> Kubu Pro-Reformasi Subsidi</strong>
+                        Subsidi komoditas adalah inefisiensi yang membelenggu pembangunan; penyesuaian harga mengoreksi distorsi pasar menuju keadilan alokasi[cite: 216, 217].
+                    </div>
+                    <div class="p-3 bg-red-950/20 border border-red-900/40 rounded">
+                        <strong class="text-red-400 block mb-1"><i class="fa-solid : font-bold fa-thumbs-down"></i> Kubu Kontra-Kenaikan</strong>
+                        Energi adalah hak dasar rakyat berdasar konstitusi. Guncangan inflasi rantai pasok merusak tatanan kesejahteraan sebelum sistem transport umum siap[cite: 220, 221, 225].
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-pmii-tuntutan" class="tab-content hidden space-y-6">
+            <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800">
+                <h3 class="text-xl font-bold text-red-500 mb-4 flex items-center gap-2">
+                    <i class="fa-solid : font-bold fa-lightbulb"></i> Rekomendasi Solusi Berjenjang (Triple Reform Strategy)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="bg-zinc-900/70 p-4 rounded-xl border-t-2 border-red-600">
+                        <span class="bg-red-950 text-red-400 font-bold px-2 py-0.5 rounded text-[10px] uppercase block w-max mb-2">Jangka Pendek (0-12 Bln)</span>
+                        <ul class="space-y-1.5 text-zinc-400">
+                            <li><strong>S1:</strong> Perluas besaran nilai dan durasi BLT Energi terintegrasi DTKS disesuaikan inflasi riil[cite: 237, 238].</li>
+                            <li><strong>S2:</strong> Guyur subsidi tarif angkutan massal (KRL, MRT, BRT) sebagai alternatif warga[cite: 239].</li>
+                            <li><strong>S3:</strong> Narasi komunikasi publik terbuka berbasis ke mana sisa dana dialihkan[cite: 240].</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-900/70 p-4 rounded-xl border-t-2 border-amber-500">
+                        <span class="bg-amber-950 text-amber-400 font-bold px-2 py-0.5 rounded text-[10px] uppercase block w-max mb-2">Jangka Menengah (1-3 Thn)</span>
+                        <ul class="space-y-1.5 text-zinc-400">
+                            <li><strong>S4:</strong> Eksekusi pemindahan subsidi dari komoditas ke orang via verifikasi NIK[cite: 242].</li>
+                            <li><strong>S5:</strong> Diversifikasi kebun angin, surya, dan panas bumi lokal[cite: 244].</li>
+                            <li><strong>S6:</strong> Bebas bea impor EV & percepat sebaran infrastruktur SPKLU[cite: 245].</li>
+                            <li><strong>S7:</strong> Rampungkan revitalisasi Kilang RDMP Balikpapan[cite: 246].</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-900/70 p-4 rounded-xl border-t-2 border-zinc-500">
+                        <span class="bg-zinc-800 text-zinc-300 font-bold px-2 py-0.5 rounded text-[10px] uppercase block w-max mb-2">Jangka Panjang (&gt;3 Thn)</span>
+                        <ul class="space-y-1.5 text-zinc-400">
+                            <li><strong>S8:</strong> Redesain total skema perlindungan sosial energi nasional[cite: 248].</li>
+                            <li><strong>S9:</strong> Roadmap internalisasi biaya emisi karbon menuju target Net Zero 2060[cite: 249, 250].</li>
+                            <li><strong>S10:</strong> Reformasi skema PSC Migas agar memikat investor eksplorasi hulu[cite: 251].</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-zinc-950 p-6 rounded-xl border border-zinc-800">
+                <h3 class="text-xl font-bold text-red-500 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Matriks 3 Skenario Proyeksi Masa Depan
+                </h3>
+                <div class="overflow-x-auto text-xs">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-zinc-800 text-zinc-400 bg-zinc-900/50">
+                                <th class="p-3">Indikator Pemantauan</th>
+                                <th class="p-3 text-emerald-400">Skenario Optimis</th>
+                                <th class="p-3 text-amber-400">Skenario Moderat</th>
+                                <th class="p-3 text-red-400">Skenario Pesimis</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-900 text-zinc-300">
+                            <tr>
+                                <td class="p-3 font-semibold text-white">Harga Minyak / Kurs USD [cite: 234]</td>
+                                <td class="p-3 text-zinc-400">USD 60–75 / Rp14.000–15.000</td>
+                                <td class="p-3 text-zinc-400">USD 75–95 / Rp15.000–16.500</td>
+                                <td class="p-3 text-zinc-400">&gt;USD 100 / &gt;Rp17.000</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-white">Reformasi NIK / Inflasi [cite: 234]</td>
+                                <td class="p-3 text-zinc-400">Berhasil Mutlak / 2,5 – 3,5%</td>
+                                <td class="p-3 text-zinc-400">Berjalan Parsial / 3 – 5%</td>
+                                <td class="p-3 text-zinc-400">Tertunda Terus / 7 – 9%</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-white">Angka Kemiskinan / EV 2030 [cite: 234]</td>
+                                <td class="p-3 text-zinc-400">Turun / 10 – 15% Armada</td>
+                                <td class="p-3 text-zinc-400">Stabil / 5 – 10% Armada</td>
+                                <td class="p-3 text-zinc-400">Lonjak +5-8 Juta Jiwa / &lt;5%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-b from-red-950/30 to-black p-6 rounded-xl border border-red-900/60 shadow-xl">
+                <div class="text-center max-w-2xl mx-auto mb-6">
+                    <span class="text-xs font-bold text-red-500 tracking-widest uppercase block mb-1">Manifes Gerakan</span>
+                    <h3 class="text-2xl font-black text-white">PERNYATAAN SIKAP RESMI PC PMII KOTA TASIKMALAYA</h3>
+                    <p class="text-xs text-zinc-400 mt-2">
+                        Menyikapi eskalasi harga JBU Pertamax yang menjepit hajat hidup kelas menengah dan pelaku ekonomi produktif lokal Priangan Timur[cite: 311, 334].
+                    </p>
+                </div>
+
+                <div class="space-y-3 max-w-4xl mx-auto text-xs">
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-800 overflow-hidden">
+                        <button onclick="toggleAccordion('acc-gov')" class="w-full text-left p-4 font-bold text-red-400 hover:bg-zinc-900 flex justify-between items-center cursor-pointer">
+                            <span>A. TUNTUTAN KEPADA PEMERINTAH REPUBLIK INDONESIA</span>
+                            <i class="fa-solid fa-chevron-down text-zinc-500"></i>
+                        </button>
+                        <div id="acc-gov" class="hidden p-4 border-t border-zinc-900 space-y-2 text-zinc-400 bg-black/30">
+                            <p><strong>1.</strong> Menolak keras segala bentuk wacana atau kebijakan menaikkan harga BBM bersubsidi (Pertalite & Solar) demi stabilitas[cite: 313].</p>
+                            <p><strong>2.</strong> Mendesak percepatan perluasan kapasitas kilang dalam negeri untuk memutus belenggu impor BBM[cite: 314].</p>
+                            <p><strong>3.</strong> Evaluasi formula batas atas agar tidak menyerahkan harga sepenuhnya ke pasar global komersial tanpa menimbang daya beli domestik[cite: 315].</p>
+                            <p><strong>4.</strong> Perketat pengawasan distribusi dan perluas transparansi basis data penerima subsidi energi lewat kontrol publik langsung[cite: 316, 317].</p>
+                            <p><strong>5.</strong> Siapkan jaring pengaman dan skema perlindungan ekonomi khusus bagi kluster UMKM, pekerja informal, dan pelaku transportasi rakyat[cite: 318].</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-800 overflow-hidden">
+                        <button onclick="toggleAccordion('acc-pertamina')" class="w-full text-left p-4 font-bold text-red-400 hover:bg-zinc-900 flex justify-between items-center cursor-pointer">
+                            <span>B. TUNTUTAN KEPADA PT PERTAMINA (PERSERO)</span>
+                            <i class="fa-solid fa-chevron-down text-zinc-500"></i>
+                        </button>
+                        <div id="acc-pertamina" class="hidden p-4 border-t border-zinc-900 space-y-2 text-zinc-400 bg-black/30">
+                            <p><strong>1.</strong> Menjamin ketersediaan pasokan rantai stok baik subsidi maupun komersial di seluruh wilayah Priangan Timur, khususnya Tasikmalaya[cite: 320].</p>
+                            <p><strong>2.</strong> Menangkal kelangkaan Pertalite akibat lonjakan migrasi konsumen pasca-kenaikan Pertamax[cite: 321].</p>
+                            <p><strong>3.</strong> Perketat digitalisasi terminal pengisian dan tindak pidana tegas SPBU nakal pelaku penimbunan atau oplosan[cite: 322, 324].</p>
+                            <p><strong>4.</strong> Membuka grafik informasi stok berkala dan pastikan pelayanan optimal bebas antrean mengular panjang[cite: 323, 325].</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-800 overflow-hidden">
+                        <button onclick="toggleAccordion('acc-depot')" class="w-full text-left p-4 font-bold text-red-400 hover:bg-zinc-900 flex justify-between items-center cursor-pointer">
+                            <span>C. TUNTUTAN KEPADA FUEL TERMINAL (DEPOT) PERTAMINA TASIKMALAYA</span>
+                            <i class="fa-solid fa-chevron-down text-zinc-500"></i>
+                        </button>
+                        <div id="acc-depot" class="hidden p-4 border-t border-zinc-900 space-y-2 text-zinc-400 bg-black/30">
+                            <p><strong>1.</strong> Menjamin ketahanan stok wilayah Priangan Timur berada pada batas aman coverage days standar nasional[cite: 327].</p>
+                            <p><strong>2.</strong> Memastikan kelancaran ketepatan waktu distribusi armada truk tangki tanpa hambatan logistik[cite: 328].</p>
+                            <p><strong>3.</strong> Memperkuat pengawasan rantai pasok hilir guna menangkal kebocoran tangki di tingkat SPBU retail[cite: 329].</p>
+                            <p><strong>4.</strong> Sinergi intensif bersama Pemda, BPH Migas, dan aparat hukum untuk mengamankan wilayah pasokan[cite: 330].</p>
+                            <p><strong>5.</strong> Sampaikan laporan akuntabilitas volume tangki cadangan energi strategis secara berkala kepada publik[cite: 331, 332].</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="relative z-10 max-w-7xl mx-auto px-4 mt-12 pt-4 border-t border-zinc-900 text-center">
+        <p class="text-[10px] text-zinc-600 tracking-wider font-medium uppercase">
+            Design By GoodMamang-Sekretaris Media Cabang PMII Kota Tasikmalaya
+        </p>
+    </footer>
+
+    <script>
+        // Tab Switcher Function
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+                content.classList.remove('block');
+            });
+            // Deactivate all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-zinc-400', 'hover:text-white', 'hover:bg-zinc-900');
+            });
+            
+            // Show selected content
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('tab-' + tabId).classList.add('block');
+            // Activate selected button
+            document.getElementById('btn-' + tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.remove('text-zinc-400', 'hover:text-white', 'hover:bg-zinc-900');
+        }
+
+        // Accordion Toggle Function
+        function toggleAccordion(id) {
+            const element = document.getElementById(id);
+            const icon = element.previousElementSibling.querySelector('.fa-chevron-down');
+            
+            if(element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                element.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Generate Ambient Background Particles dynamically
+        const particleContainer = document.getElementById('particle-container');
+        const particleCount = 20;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Random styling for authentic movement
+            const size = Math.random() * 80 + 20;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.animationDelay = `${Math.random() * 20}s`;
+            particle.style.animationDuration = `${Math.random() * 15 + 15}s`;
+            
+            particleContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
